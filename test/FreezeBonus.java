@@ -13,5 +13,5 @@ public class FreezeBonus extends Environment{
     }
 
     @Override
-    public Image getImage() { return FreezeBonus.image; }//
+    public Image getImage() { return FreezeBonus.image; }
 }

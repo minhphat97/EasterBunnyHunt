@@ -321,62 +321,93 @@ public class Maze extends JPanel implements ActionListener
         g.drawString("Speed boost time: " + (int)speedTimer, 400,575);
     }
 
-    private void checkCollision(Character c)
-    {
-        int row = (c.getY() + c.getSpeed() * c.getDeltaY()) / CELL_SIZE;
-        int col = (c.getX() + c.getSpeed() * c.getDeltaX()) / CELL_SIZE;
+    private void checkCollision(Character c) {
+        /**
+         * Checks a character for collisions with environment objects.
+         * It is assumed that the character is currently not in collision with
+         * any environment objects.
+         * It is also assumed that the character only moves in the four
+         * cardinal directions.
+         * <p>
+         * Currently handles collisions with the following classes:
+         *   - Wall
+         *   - Egg
+         *   - Door
+         *
+         * @param  c  The character for which to check collisions.
+         */
 
-        switch (screenData[row][col].getClass().getName()) {
-            case "Wall":
+        int currRow = c.getY() / CELL_SIZE;
+        int currCol = c.getX() / CELL_SIZE;
+        int nextRow = (c.getY() + c.getSpeed() * c.getDeltaY()) / CELL_SIZE;
+        int nextCol = (c.getX() + c.getSpeed() * c.getDeltaX()) / CELL_SIZE;
+
+        // items: { row , col , edgeX , edgeY }
+        var checkCells = new ArrayList<int[]>();
+
+        if (c.getDeltaX() != 0) {
+            if (c.getDeltaX() < 0) {  // check left collision
+                checkCells.add(new int[]{currRow, nextCol, CELL_SIZE * currCol, c.getY()});
+                if (c.getY() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{currRow + 1, nextCol, CELL_SIZE * currCol, c.getY()});
+            } else {  // check right collision
+                checkCells.add(new int[]{currRow, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
+                if (c.getY() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{currRow + 1, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
+            }
+        } else if (c.getDeltaY() != 0) {
+            if (c.getDeltaY() < 0) {  // check up collision
+                checkCells.add(new int[]{nextRow, currCol, c.getX(), CELL_SIZE * currRow});
+                if (c.getX() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{nextRow, currCol + 1, c.getX(), CELL_SIZE * currRow});
+            } else {  //check down collision
+                checkCells.add(new int[]{nextRow + 1, currCol, c.getX(), CELL_SIZE * nextRow});
+                if (c.getX() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{nextRow + 1, currCol + 1, c.getX(), CELL_SIZE * nextRow});
+            }
+        }
+
+        for (var data : checkCells) {
+            var nextEnv = screenData[data[0]][data[1]];
+            if (nextEnv instanceof Wall || (nextEnv instanceof Door && !Door.checkOpen())) {
+                // If wall or closed door.
                 c.setDeltaX(0);
                 c.setDeltaY(0);
-                break;
-            case "Egg":
-                if (c != rabbit) break;
+                c.setX(data[2]);
+                c.setY(data[3]);
+            } else if (c != rabbit) {
+                // Don't check the rest of the collisions if this character is
+                // not the rabbit.
+            } else if (nextEnv instanceof Egg) {
+                screenData[data[0]][data[1]] = new Cell();
                 Egg.decCount();
-                rabbit.setScore(rabbit.getScore() + 1);//increment score when received egg
-                screenData[row][col] = new Cell();
-                break;
-            case "Door":
-                if (Door.checkOpen()) {
-                    System.out.println("Win!");
-                } else {
-                    c.setDeltaX(0);
-                    c.setDeltaY(0);
-                } break;
-            //check for bonus'
-            case "ScoreBonus":
-                if (c != rabbit) break;
-                int bonus = (int)(Math.random()*5);
+                rabbit.setScore(rabbit.getScore() + 1);  // increment score when received egg
+                if (Egg.getCount() == 0)
+                    Door.open();
+            } else if (nextEnv instanceof Door) {
+                System.out.println("Win!");
+            } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
+                screenData[data[0]][data[1]] = new Cell();
+                int bonus = (int) (Math.random() * 5);
                 rabbit.setScore(rabbit.getScore() + bonus);
-                screenData[row][col] = new Cell();
                 onScreen = false;
-                respawnTimer = 5 + (int)(Math.random()*10);//wait up to 10 secs for next bonus
-                break;
-            case "FreezeBonus":
-                if (c != rabbit) break;
-                screenData[row][col] = new Cell();
+                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            } else if (nextEnv instanceof FreezeBonus) {
+                screenData[data[0]][data[1]] = new Cell();
                 enemyFrozen = true;
                 freezeEnemies();
-                freezeTimer += BONUSDURATION;//set the freeze timer to begin
-                onScreen = false;//bonus no longer on screen
-                respawnTimer = 5 + (int)(Math.random()*10);//wait up to 10 secs for next bonus
-                break;
-            case "SpeedBonus":
-                if (c != rabbit) break;
+                freezeTimer += BONUSDURATION;  // set the freeze timer to begin
+                onScreen = false;  // bonus no longer on screen
+                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            } else if (nextEnv instanceof SpeedBonus) {
+                screenData[data[0]][data[1]] = new Cell();
                 rabbit.setSpeed(10);
                 rabbit.isFast = true;
                 speedTimer += BONUSDURATION;
-                screenData[row][col] = new Cell();
                 onScreen = false;
-                respawnTimer = 5+ (int)(Math.random()*10);//wait up to 10 secs for next bonus
-                break;
+                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            }
         }
-
-        if (Egg.getCount() == 0) {
-            Door.open();
-        }
-
     }
 
     //classes for frozen egg, checks if enemies should still be frozen
