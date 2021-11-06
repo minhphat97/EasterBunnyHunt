@@ -182,33 +182,71 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
-    private void checkCollision(Character c)
-    {
-        int row = (c.getY() + c.getSpeed() * c.getDeltaY()) / CELL_SIZE;
-        int col = (c.getX() + c.getSpeed() * c.getDeltaX()) / CELL_SIZE;
+    private void checkCollision(Character c) {
+        /**
+         * Checks a character for collisions with environment objects.
+         * It is assumed that the character is currently not in collision with
+         * any environment objects.
+         * It is also assumed that the character only moves in the four
+         * cardinal directions.
+         * <p>
+         * Currently handles collisions with the following classes:
+         *   - Wall
+         *   - Egg
+         *   - Door
+         *
+         * @param  c  The character for which to check collisions.
+         */
 
-        switch (screenData[row][col].getClass().getName()) {
-            case "Wall":
+        int currRow = c.getY() / CELL_SIZE;
+        int currCol = c.getX() / CELL_SIZE;
+        int nextRow = (c.getY() + c.getSpeed() * c.getDeltaY()) / CELL_SIZE;
+        int nextCol = (c.getX() + c.getSpeed() * c.getDeltaX()) / CELL_SIZE;
+
+        // items: { row , col , edgeX , edgeY }
+        var checkCells = new ArrayList<int[]>();
+
+        if (c.getDeltaX() != 0) {
+            if (c.getDeltaX() < 0) {  // check left collision
+                checkCells.add(new int[]{currRow, nextCol, CELL_SIZE * currCol, c.getY()});
+                if (c.getY() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{currRow + 1, nextCol, CELL_SIZE * currCol, c.getY()});
+            } else {  // check right collision
+                checkCells.add(new int[]{currRow, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
+                if (c.getY() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{currRow + 1, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
+            }
+        } else if (c.getDeltaY() != 0) {
+            if (c.getDeltaY() < 0) {  // check up collision
+                checkCells.add(new int[]{nextRow, currCol, c.getX(), CELL_SIZE * currRow});
+                if (c.getX() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{nextRow, currCol + 1, c.getX(), CELL_SIZE * currRow});
+            } else {  //check down collision
+                checkCells.add(new int[]{nextRow + 1, currCol, c.getX(), CELL_SIZE * nextRow});
+                if (c.getX() % CELL_SIZE != 0)
+                    checkCells.add(new int[]{nextRow + 1, currCol + 1, c.getX(), CELL_SIZE * nextRow});
+            }
+        }
+
+        for (var data : checkCells) {
+            var nextEnv = screenData[data[0]][data[1]];
+            if (nextEnv instanceof Wall || (nextEnv instanceof Door && !Door.checkOpen())) {
+                // If wall or closed door.
                 c.setDeltaX(0);
                 c.setDeltaY(0);
-                break;
-            case "Egg":
-                if (c != rabbit) break;
+                c.setX(data[2]);
+                c.setY(data[3]);
+            } else if (c != rabbit) {
+                // Don't check the rest of the collisions if this character is
+                // not the rabbit.
+            } else if (nextEnv instanceof Egg) {
                 Egg.decCount();
-                screenData[row][col] = new Cell();
-                break;
-            case "Door":
-                if (Door.checkOpen()) {
-                    System.out.println("Win!");
-                } else {
-                    c.setDeltaX(0);
-                    c.setDeltaY(0);
-                } break;
+                screenData[data[0]][data[1]] = new Cell();
+                if (Egg.getCount() == 0)
+                    Door.open();
+            } else if (nextEnv instanceof Door) {
+                System.out.println("Win!");
+            }
         }
-
-        if (Egg.getCount() == 0) {
-            Door.open();
-        }
-
     }
 }
