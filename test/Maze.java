@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Stack;
 
 
 import javax.swing.ImageIcon;
@@ -99,43 +100,55 @@ public class Maze extends JPanel implements ActionListener
 
         timer.start();
     }
-    class Key extends KeyAdapter
-    {
-        @Override
-        public void keyPressed(KeyEvent e) {
 
-            int key = e.getKeyCode();
-            if (key == KeyEvent.VK_A)
-            {
-                rabbit.setDeltaX(-1);
-                rabbit.setDeltaY(0);
-            }
-            else if (key == KeyEvent.VK_D)
-            {
-                rabbit.setDeltaX(1);
-                rabbit.setDeltaY(0);
-            }
-            else if (key == KeyEvent.VK_W)
-            {
-                rabbit.setDeltaX(0);
-                rabbit.setDeltaY(-1);
-            }
-            else if (key == KeyEvent.VK_S)
-            {
-                rabbit.setDeltaX(0);
-                rabbit.setDeltaY(1);
-            }
 
-        }
-        @Override
-        public void keyReleased(KeyEvent e)
-        {
-            //Uncomment the below code to make pacman stop after releasing key
+    class Key extends KeyAdapter {
+        // This cannot be static because inner classes are lame.
+        private int[] allowedKeys = {
+            KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D
+        };
+
+        // Stack of Integers to keep track of which direction we're moving.
+        private Stack<Integer> keyStack = new Stack<Integer>();
+
+        private void processDirection() {
             rabbit.setDeltaX(0);
             rabbit.setDeltaY(0);
+
+            if (this.keyStack.isEmpty())
+                return;
+
+            switch (this.keyStack.peek()) {
+                case KeyEvent.VK_A: rabbit.setDeltaX(-1); break;
+                case KeyEvent.VK_D: rabbit.setDeltaX(1); break;
+                case KeyEvent.VK_W: rabbit.setDeltaY(-1); break;
+                case KeyEvent.VK_S: rabbit.setDeltaY(1); break;
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            Integer key = e.getKeyCode();
+
+            boolean allowed = false;
+            for (var n : this.allowedKeys)
+                allowed = allowed || (n == key);
+            if (!allowed) return;
+
+            if (this.keyStack.contains(key))
+                this.keyStack.removeElement(key);
+            this.keyStack.push(key);
+            this.processDirection();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            var key = e.getKeyCode();
+            if (this.keyStack.contains(key))
+                this.keyStack.removeElement(key);
+            this.processDirection();
         }
     }
-
 
 
     private void initLevel()
