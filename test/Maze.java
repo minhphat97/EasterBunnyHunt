@@ -28,14 +28,17 @@ public class Maze extends JPanel implements ActionListener
     private Hero rabbit;
     private ArrayList<Enemy> enemies;
 
-    boolean playing = false;
     boolean pause = false;
+    boolean sawStart = false;
+    boolean sawRule = false;
+    boolean finish = false;
+    boolean win = false;
 
     private final int CELL_SIZE = 48 ;
     private final int N_ROW = 9;
     private final int N_COL = 16;
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
-    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE;
+    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + 175;
     private int score;
     private int key_x, key_y;
 
@@ -58,7 +61,7 @@ public class Maze extends JPanel implements ActionListener
     private int bonusCol = 0;//index of the bonus
     private int bonusRow = 0;
 
-    private Image introScreen,pauseScreen,winScreen,loseScreen;
+    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen;
 
     public final short EMPTY = 0;
     public final short WALL = 1;
@@ -71,31 +74,21 @@ public class Maze extends JPanel implements ActionListener
 
     public Maze()
     {
+        introScreen = new ImageIcon("images/48_rabbit_left.gif").getImage();
+        pauseScreen = new ImageIcon("images/48_rabbit_right.gif").getImage();
+        winScreen = new ImageIcon("images/48_rabbit_up.gif").getImage();
+        loseScreen = new ImageIcon("images/48_rabbit_down.gif").getImage();
+        ruleScreen = new ImageIcon("images/48_wolf_left.gif").getImage();
+
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
         timer = new Timer(DELAY, this);
         addKeyListener(new Key());
         setFocusable(true);
         setBackground(Color.green);
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
-        rabbit = new Hero(50, 50);
-        enemies = new ArrayList<Enemy>();
-        enemies.add(new Bat(100, 100));
-        enemies.add(new Hunter(200, 100));
-        enemies.add(new Wolf(150, 150));
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 
-        for (int r = 0; r < N_ROW; ++r) {
-            for (int c = 0; c < N_COL; ++c) {
-                if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
-                    levelData[r][c] = WALL;
-                } else {
-                    levelData[r][c] = EMPTY;
-                }
-            }
-        }
-        levelData[4][7] = EGG;
-        levelData[5][15] = DOOR;
-
+        createLevel();
         initLevel();
 
         timer.start();
@@ -130,15 +123,48 @@ public class Maze extends JPanel implements ActionListener
         public void keyPressed(KeyEvent e) {
             Integer key = e.getKeyCode();
 
-            boolean allowed = false;
-            for (var n : this.allowedKeys)
-                allowed = allowed || (n == key);
-            if (!allowed) return;
+            if (!sawStart) {
+                if (key == KeyEvent.VK_SPACE) {
+                    sawStart = true;
+                }
+            } else if (!sawRule) {
+                if (key == KeyEvent.VK_SPACE) {
+                    sawRule = true;
+                }
+            } else if (finish) {
+                if (key == KeyEvent.VK_SPACE) {
+                    pause = false;
+                    sawStart = false;
+                    finish = false;
+                    win = false;
+                    gameTimer = 0;
 
-            if (this.keyStack.contains(key))
-                this.keyStack.removeElement(key);
-            this.keyStack.push(key);
-            this.processDirection();
+                    timer.stop();
+                    createLevel();
+                    initLevel();
+                    timer.restart();
+                }
+            } else if (pause) {
+                if (key == KeyEvent.VK_SPACE) {
+                    pause = false;
+                } else if (key == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
+            } else {
+                if (key == KeyEvent.VK_ESCAPE) {
+                    pause = true;
+                } else {
+                    boolean allowed = false;
+                    for (var n : this.allowedKeys)
+                        allowed = allowed || (n == key);
+                    if (!allowed) return;
+
+                    if (this.keyStack.contains(key))
+                        this.keyStack.removeElement(key);
+                    this.keyStack.push(key);
+                    this.processDirection();
+                }
+            }
         }
 
         @Override
@@ -150,6 +176,32 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
+    private void createLevel() {
+        /**
+         * Generate the data for a level.
+         * Automatic garbage collection should clean up the old values.
+         */
+
+        rabbit = new Hero(50, 50);
+
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Bat(200, 100));
+        enemies.add(new Hunter(200, 100));
+        enemies.add(new Wolf(150, 150));
+
+        // TODO: Read this data from a file.
+        for (int r = 0; r < N_ROW; ++r) {
+            for (int c = 0; c < N_COL; ++c) {
+                if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
+                    levelData[r][c] = WALL;
+                } else {
+                    levelData[r][c] = EMPTY;
+                }
+            }
+        }
+        levelData[4][7] = EGG;
+        levelData[5][15] = DOOR;
+    }
 
     private void initLevel()
     {
@@ -158,7 +210,7 @@ public class Maze extends JPanel implements ActionListener
                 switch (levelData[r][c]) {
                     case EMPTY: screenData[r][c] = new Cell(); break;
                     case WALL: screenData[r][c] = new Wall(); break;
-                    case EGG: screenData[r][c] = new Egg();break;
+                    case EGG: screenData[r][c] = new Egg(); break;
                     case DOOR: screenData[r][c] = new Door(); break;
                 }
             }
@@ -238,22 +290,34 @@ public class Maze extends JPanel implements ActionListener
             }
         }
     }
-    private void startDrawing(Graphics g)
-    {
-        drawMaze(g);
-        drawHero(g);
-        drawEnemy(g);
-        drawTimer(g);
-        drawScore(g);
-        drawPauseInfo(g);
-        if(enemyFrozen)//draw bonus effect durations if applicable
-        {
-            drawFreezeTimer(g);
+
+    private void startDrawing(Graphics g) {
+        if (!sawStart) {
+            showStart(g);
+        } else if (!sawRule) {
+            showRule(g);
+        } else if (finish) {
+            showFinish(g);
+        } else if (pause) {
+            showPause(g);
+        } else {
+            drawMaze(g);
+            drawTimer(g);
+            drawScore(g);
+            drawHero(g);
+            drawEnemy(g);
+            drawPauseInfo(g);
+
+            // Draw bonus effect durations if applicable.
+            if(enemyFrozen) {
+                drawFreezeTimer(g);
+            } 
+
+            if(rabbit.isFast) {
+                drawSpeedTimer(g);
+            }
         }
-        if(rabbit.isFast)
-        {
-            drawSpeedTimer(g);
-        }
+
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -404,6 +468,8 @@ public class Maze extends JPanel implements ActionListener
                     Door.open();
             } else if (nextEnv instanceof Door) {
                 System.out.println("Win!");
+                finish = true; //new
+                win = true; //new
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
                 screenData[data[0]][data[1]] = new Cell();
                 int bonus = (int) (Math.random() * 5);
@@ -444,6 +510,10 @@ public class Maze extends JPanel implements ActionListener
                 this.rabbit.hit(3);
                 break;
             }
+            /*if (rabbit.getScore() < 0) //new, disable for now because it dead to easily
+            {
+                finish = true;
+            }*/
         }
     }
 
@@ -487,4 +557,91 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
+    private void showRule(Graphics g) {
+        g.drawImage(ruleScreen, 0, 0, this);
+        g.setFont(smallFont);
+
+        String s[] = {
+            "RULES",
+            "",
+            "Collect rainbow eggs to open the portal",
+            "Collect golden eggs to get bonuses",
+            "Avoid all other objects",
+            "Enter the portal to win",
+            "",
+            "Press <space> to continue"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
+    }
+
+    private void showPause(Graphics g) {
+        g.drawImage(pauseScreen, 0, 0, this);
+        g.setFont(smallFont);
+
+        String s[] = {
+            "PAUSED",
+            "",
+            "Press <space> to resume",
+            "Press <esc> to quit"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
+
+        timer.stop();
+    }
+
+    private void showStart(Graphics g) {
+        g.drawImage(introScreen, 0, 0, this);
+        g.setFont(smallFont);
+
+        String s[] = {
+            "EASTER BUNNY HUNT",
+            "",
+            "Press <space> to start"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
+    }
+
+    private void showFinish(Graphics g){
+        if (win) {
+            g.drawImage(winScreen, 0, 0, this);
+        } else {
+            g.drawImage(loseScreen, 0, 0, this);
+        }
+
+        g.setFont(smallFont);
+
+        String s[] = {
+            win ? "YOU WIN" : "YOU LOSE",
+            "",
+            "Time: " + (int) (gameTimer / 3600) + ":" + (int) ((gameTimer / 60) % 60) + ":" + (int) (gameTimer % 60),
+            "Score: " + rabbit.getScore(),
+            "",
+            "Press <space> to play again"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
+    }
 }
