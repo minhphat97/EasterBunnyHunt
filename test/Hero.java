@@ -6,6 +6,7 @@ public class Hero extends Character {
     private int score = 0;
     private boolean dead = false;
     public boolean isFast = false;
+    public boolean isTrap = false;
 
     private static Image image_left, image_right, image_up, image_down;
 

@@ -59,6 +59,7 @@ public class Maze extends JPanel implements ActionListener {
     private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
     private double bonusTimer = 0;  // timer to count down while bonus is on screen
     private double respawnTimer = 0;  // timer to count down till next bonus
+    private double trapTimer = 0; // timer to count down to keep bunny stop
     private boolean onScreen = false;  // indicate if there is bonus currently on the screen
     private int bonusCol = 0;  // index of the bonus
     private int bonusRow = 0;
@@ -72,6 +73,8 @@ public class Maze extends JPanel implements ActionListener {
     public final short EGGFREEZE = 4;
     public final short EGGPOINTS = 5;
     public final short EGGSPEED = 6;
+    public final short TRAP = 7;
+    public final short THORNBUSH = 8;
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
     public Maze() {
@@ -88,7 +91,7 @@ public class Maze extends JPanel implements ActionListener {
         addKeyListener(new Key());
 
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        setBackground(Color.green);
+        setBackground(background);
         setFocusable(true);
 
         createLevel();
@@ -207,7 +210,9 @@ public class Maze extends JPanel implements ActionListener {
             }
         }
         levelData[4][7] = EGG;
-        levelData[5][15] = DOOR;
+        levelData[3][23] = DOOR;
+        levelData[6][9] = TRAP;
+        levelData[3][3] = THORNBUSH;
     }
 
     private void initLevel() {
@@ -218,6 +223,8 @@ public class Maze extends JPanel implements ActionListener {
                     case WALL: screenData[r][c] = new Wall(); break;
                     case EGG: screenData[r][c] = new Egg(); break;
                     case DOOR: screenData[r][c] = new Door(); break;
+                    case TRAP: screenData[r][c] = new TrapPunishment(); break;
+                    case THORNBUSH: screenData[r][c] = new ThornBushPunishment(); break;
                 }
             }
         }
@@ -334,6 +341,9 @@ public class Maze extends JPanel implements ActionListener {
     private void drawHero(Graphics g) {
         if(rabbit.isFast) {
             checkSpeedBonus();
+        }
+        if (rabbit.isTrap) {
+            checkTrap();
         }
 
         checkCollision(rabbit);
@@ -482,7 +492,17 @@ public class Maze extends JPanel implements ActionListener {
                 speedTimer += BONUSDURATION;
                 onScreen = false;
                 respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            } else if (nextEnv instanceof TrapPunishment) {
+                screenData[data[0]][data[1]] = new Cell();
+                rabbit.setSpeed(0);
+                rabbit.isTrap = true;
+                trapTimer += BONUSDURATION;
+            } else if (nextEnv instanceof ThornBushPunishment) {
+                screenData[data[0]][data[1]] = new Cell();
+                rabbit.setScore(rabbit.getScore()-1);
+
             }
+
         }
     }
 
@@ -537,6 +557,15 @@ public class Maze extends JPanel implements ActionListener {
         } else {
             speedTimer = speedTimer - (double) DELAY / 1000;
         }
+    }
+
+    private void checkTrap() {
+        if ((int)trapTimer == 0) {
+            rabbit.setDefaultSpeed();
+        } else {
+            trapTimer = trapTimer - (double) DELAY /1000;
+        }
+
     }
 
     private void showRule(Graphics g) {

@@ -4,6 +4,4 @@ public abstract class Environment extends GameObject
 	{
 		super();
 	}
-
-
 }
