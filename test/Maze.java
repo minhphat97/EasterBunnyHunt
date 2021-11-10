@@ -30,6 +30,9 @@ public class Maze extends JPanel implements ActionListener
 
     boolean playing = false;
     boolean pause = false;
+    boolean sawRule = false;
+    boolean finish = false;
+    boolean win = false;
 
     private final int CELL_SIZE = 48 ;
     private final int N_ROW = 9;
@@ -58,7 +61,7 @@ public class Maze extends JPanel implements ActionListener
     private int bonusCol = 0;//index of the bonus
     private int bonusRow = 0;
 
-    private Image introScreen,pauseScreen,winScreen,loseScreen;
+    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen;
 
     public final short EMPTY = 0;
     public final short WALL = 1;
@@ -71,6 +74,12 @@ public class Maze extends JPanel implements ActionListener
 
     public Maze()
     {
+        introScreen = new ImageIcon("images/48_rabbit_left.gif").getImage();
+        pauseScreen = new ImageIcon("images/48_rabbit_right.gif").getImage();
+        winScreen = new ImageIcon("images/48_rabbit_up.gif").getImage();
+        loseScreen = new ImageIcon("images/48_rabbit_down.gif").getImage();
+        ruleScreen = new ImageIcon("images/48_wolf_left.gif").getImage();
+
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
         timer = new Timer(DELAY, this);
@@ -80,7 +89,7 @@ public class Maze extends JPanel implements ActionListener
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
         rabbit = new Hero(50, 50);
         enemies = new ArrayList<Enemy>();
-        enemies.add(new Bat(100, 100));
+        enemies.add(new Bat(200, 100));
         enemies.add(new Hunter(200, 100));
         enemies.add(new Wolf(150, 150));
 
@@ -130,15 +139,47 @@ public class Maze extends JPanel implements ActionListener
         public void keyPressed(KeyEvent e) {
             Integer key = e.getKeyCode();
 
-            boolean allowed = false;
-            for (var n : this.allowedKeys)
-                allowed = allowed || (n == key);
-            if (!allowed) return;
+            if (playing && sawRule && !pause && !finish){
+                
+                if (key == KeyEvent.VK_ESCAPE){
+                    pause = true;
+                }
+                else{
+                    boolean allowed = false;
+                    for (var n : this.allowedKeys)
+                        allowed = allowed || (n == key);
+                    if (!allowed) return;
 
-            if (this.keyStack.contains(key))
-                this.keyStack.removeElement(key);
-            this.keyStack.push(key);
-            this.processDirection();
+                    if (this.keyStack.contains(key))
+                        this.keyStack.removeElement(key);
+                    this.keyStack.push(key);
+                    this.processDirection();
+                }
+            }
+            else if (playing && !sawRule){
+                sawRule = true;
+            }
+            else if (playing && pause){
+                if (key == KeyEvent.VK_ENTER){
+                    pause = false;
+                }
+                else if (key == KeyEvent.VK_ESCAPE) {
+                    playing = false;
+                    pause = false;
+                    sawRule = false;  
+                }
+            }
+            else if(playing && finish){
+                playing = false;
+                pause = false;
+                sawRule = false;
+                finish = false;
+                win = false;
+            }
+            else{
+                if(key==KeyEvent.VK_SPACE)
+                    {playing = true;}
+            }
         }
 
         @Override
@@ -240,20 +281,35 @@ public class Maze extends JPanel implements ActionListener
     }
     private void startDrawing(Graphics g)
     {
-        drawMaze(g);
-        drawHero(g);
-        drawEnemy(g);
-        drawTimer(g);
-        drawScore(g);
-        drawPauseInfo(g);
-        if(enemyFrozen)//draw bonus effect durations if applicable
-        {
-            drawFreezeTimer(g);
+        if (playing && sawRule && !finish &&!pause){
+            drawMaze(g);
+            drawTimer(g);
+            drawScore(g);
+            drawHero(g);
+            drawEnemy(g);
+            drawPauseInfo(g);
+            if(enemyFrozen)//draw bonus effect durations if applicable
+            {
+                drawFreezeTimer(g);
+            }
+            if(rabbit.isFast)
+            {
+                drawSpeedTimer(g);
+            }
         }
-        if(rabbit.isFast)
-        {
-            drawSpeedTimer(g);
+        else if (playing && pause){
+            showPause(g);
         }
+        else if (playing && !sawRule){
+            showRule(g);
+        }
+        else if (playing && finish){
+            showFinish(g);
+        }
+        else{
+            showStart(g);
+        }
+
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -404,6 +460,8 @@ public class Maze extends JPanel implements ActionListener
                     Door.open();
             } else if (nextEnv instanceof Door) {
                 System.out.println("Win!");
+                finish = true;
+                win = true;
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
                 screenData[data[0]][data[1]] = new Cell();
                 int bonus = (int) (Math.random() * 5);
@@ -484,6 +542,25 @@ public class Maze extends JPanel implements ActionListener
         else
         {
             speedTimer = speedTimer - (double)DELAY/1000;
+        }
+    }
+
+    private void showRule(Graphics g){
+        g.drawImage(ruleScreen,0,0, this);
+    }
+    private void showPause(Graphics g){
+        g.drawImage(pauseScreen,0,0, this);
+        timer.stop();
+    }
+    private void showStart(Graphics g){
+        g.drawImage(introScreen,0,0, this);
+    }
+    private void showFinish(Graphics g){
+        if(win){
+            g.drawImage(winScreen,0,0, this);
+        }
+        else{
+            g.drawImage(loseScreen,0,0, this);
         }
     }
 
