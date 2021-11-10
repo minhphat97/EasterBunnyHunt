@@ -262,6 +262,7 @@ public class Maze extends JPanel implements ActionListener
             checkSpeedBonus();
         }
         checkCollision(rabbit);
+        checkHero();
         rabbit.move();
         g.drawImage(rabbit.getImage(), rabbit.getX(), rabbit.getY(), this);
     }
@@ -409,6 +410,25 @@ public class Maze extends JPanel implements ActionListener
                 speedTimer += BONUSDURATION;
                 onScreen = false;
                 respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            }
+        }
+    }
+
+    private void checkHero() {
+        /**
+         * Checks the hero for collisions with any enemies.
+         * This differs from ``checkCollision()'' in that this holds the
+         * additional checks meant for the hero only whereas the other one is
+         * more general and works for any ``Character'' object.
+         */
+
+        double dx, dy;
+        for (var e : this.enemies) {
+            dx = (double) e.getX() - this.rabbit.getX();
+            dy = (double) e.getY() - this.rabbit.getY();
+            if (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) <= CELL_SIZE) {
+                this.rabbit.hit(3);
+                break;
             }
         }
     }

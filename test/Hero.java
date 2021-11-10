@@ -4,10 +4,14 @@ import javax.swing.ImageIcon;
 
 public class Hero extends Character {
     private int score = 0;
-    private boolean dying;
-    public boolean isFast;
+    private boolean dead = false;
+    public boolean isFast = false;
 
     private static Image image_left, image_right, image_up, image_down;
+
+    // Variables determining how often hitboxes are registered.
+    private static long hitInterval = 631;  // in milliseconds.
+    private long lastHit = 0;
 
     public Hero(int x, int y) {
         super(x, y);
@@ -24,6 +28,19 @@ public class Hero extends Character {
     public int getScore() { return this.score; }
     public void setScore(int n) { this.score = n; }
     public void addScore(int n) { this.score += n; }
+
+    public void hit() { this.hit(1); }
+    public void hit(int n) {
+        long t = System.currentTimeMillis();
+        if (t >= this.lastHit + Hero.hitInterval) {
+            this.lastHit = t;
+            if ((this.score -= n) < 0)
+                this.setDead();
+        }
+    }
+
+    public void setDead() { this.dead = true; }
+    public boolean isDead() { return this.dead; }
 
     @Override
     public Image getImage() {
