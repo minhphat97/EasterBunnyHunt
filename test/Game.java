@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
     public Game() {
-        var image = new ImageIcon("images/tree.png");
+        var image = new ImageIcon("images/72_egg_1.png");
         setIconImage(image.getImage());  // set application icon
         setContentPane(new Maze());
         setTitle("Easter Bunny Hunt");
