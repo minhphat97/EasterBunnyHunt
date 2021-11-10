@@ -33,11 +33,14 @@ public class Maze extends JPanel implements ActionListener {
     boolean finish = false;
     boolean win = false;
 
+    // Height of the bottom info panel.
+    private final int INFO_HEIGHT = 72;
+
     private final int CELL_SIZE = 48;
-    private final int N_ROW = 9;
-    private final int N_COL = 16;
+    private final int N_ROW = 12;
+    private final int N_COL = 24;
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
-    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + 175;
+    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
     private int score;
     private int key_x, key_y;
 
@@ -48,7 +51,7 @@ public class Maze extends JPanel implements ActionListener {
     private final int DELAY = 40;  // added final for delay, used for in game timer
     private double gameTimer = 0;  // keeps track of playing time
 
-    //bonus vars
+    // Bonus vars.
     private boolean enemyFrozen = false;
     private final int BONUSDURATION = 5; // duration in seconds for the bonus effects to last
     private double freezeTimer = 0;  // timers required for bunus durations
@@ -356,37 +359,38 @@ public class Maze extends JPanel implements ActionListener {
     // Function to display in game timer.
     private void drawTimer(Graphics g) {
         int hour, min, sec, gameTimerS;
-        gameTimer += (double) DELAY / 1000;  // Keep track of game time in seconds.
+        gameTimer += (double) DELAY / 1000;  // keep track of game time in seconds
         gameTimerS = (int) gameTimer;
         sec = gameTimerS % 60;
         min = (gameTimerS / 60) % 60;
         hour = gameTimerS / 3600;
         g.setFont(smallFont);
+
         // Display in hour:min:sec format.
-        g.drawString("Time: "+ hour + " : " + min + " : " + sec, 100, 475);
+        g.drawString("Time: " + hour + ":" + min + ":" + sec, 24, SCREEN_HEIGHT - 26);
     }
 
     // Functoin to draw score, score depends on bonuses, regular eggs, and traps.
     private void drawScore(Graphics g) {
         g.setFont(smallFont);
-        g.drawString("Score: " + rabbit.getScore(), 400, 475);
+        g.drawString("Score: " + rabbit.getScore(), 245, SCREEN_HEIGHT - 26);
     }
 
-    // Draws a little message to remind user how to pause
+    // Draws a little message to remind user how to pause.
     private void drawPauseInfo(Graphics g) {
         g.setFont(new Font("MV Boli", Font.PLAIN, 12));
-        g.drawString("Press \"Esc\" to pause!", 650, 475);
+        g.drawString("Press <esc> to pause!", SCREEN_WIDTH - 140, SCREEN_HEIGHT - 13);
     }
 
     // Draw bonus effect timers
     private void drawFreezeTimer(Graphics g) {
         g.setFont(smallFont);
-        g.drawString("Freeze boost time: " + (int) freezeTimer, 50, 575);
+        g.drawString("Freeze boost time: " + (int) freezeTimer, 420, SCREEN_HEIGHT - 26);
     }
 
     private void drawSpeedTimer(Graphics g) {
         g.setFont(smallFont);
-        g.drawString("Speed boost time: " + (int) speedTimer, 400, 575);
+        g.drawString("Speed boost time: " + (int) speedTimer, 770, SCREEN_HEIGHT - 26);
     }
 
     private void checkCollision(Character c) {
