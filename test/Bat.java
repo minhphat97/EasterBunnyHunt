@@ -13,6 +13,10 @@ public class Bat extends Enemy {
         }
 
         this.image_last = Bat.image_left;
+
+        this.turnPercentage = 0.3;
+        this.defaultSpeed = 4;
+        this.speed = this.defaultSpeed;
     }
 
     @Override

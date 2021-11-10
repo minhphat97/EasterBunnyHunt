@@ -12,9 +12,6 @@ public class Wolf extends Enemy {
             Wolf.image_left = new ImageIcon("images/48_wolf_left.gif").getImage();
             Wolf.image_right = new ImageIcon("images/48_wolf_right.gif").getImage();
         }
-
-        this.image_last = Wolf.image_left;
-        this.speed = 2;
     }
 
     @Override

@@ -15,6 +15,10 @@ public class Hunter extends Enemy {
         }
 
         this.image_last = Hunter.image_left;
+
+        this.turnPercentage = 0.02;
+        this.defaultSpeed = 3;
+        this.speed = this.defaultSpeed;
     }
 
     @Override

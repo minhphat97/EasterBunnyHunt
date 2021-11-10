@@ -191,7 +191,7 @@ public class Maze extends JPanel implements ActionListener {
         enemies = new ArrayList<Enemy>();
         enemies.add(new Bat(400, 100));
         enemies.add(new Hunter(300, 150));
-        enemies.add(new Wolf(200, 200));
+        enemies.add(new Wolf(400, 200));
 
         // TODO: Read this data from a file.
         for (int r = 0; r < N_ROW; ++r) {

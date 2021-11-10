@@ -1,5 +1,5 @@
 public abstract class Enemy extends Character {
-    protected static double turnPercentage = 0.05;
+    protected double turnPercentage = 0.05;
 
     public Enemy(int x, int y) {
         super(x, y);
@@ -9,7 +9,7 @@ public abstract class Enemy extends Character {
     }
 
     public void nextMove(Hero h) {
-        if ((this.deltaX != 0 || this.deltaY != 0) && Math.random() > turnPercentage)
+        if ((this.deltaX != 0 || this.deltaY != 0) && Math.random() > this.turnPercentage)
             return;
 
         switch ((int) (Math.random() * 4)) {
