@@ -21,5 +21,6 @@ public class Door extends Environment {
 	}
 
 	public static void open() { Door.isOpen = true; }
+    public static void close() { Door.isOpen = false; }
 	public static boolean checkOpen() { return Door.isOpen; }
 }

@@ -140,8 +140,12 @@ public class Maze extends JPanel implements ActionListener {
                     gameTimer = 0;
 
                     timer.stop();
+
+                    Egg.resetCount();
+                    Door.close();
                     createLevel();
                     initLevel();
+
                     timer.restart();
                 }
             } else if (pause) {

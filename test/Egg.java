@@ -18,4 +18,5 @@ public class Egg extends Environment {
 
 	public static int getCount() { return Egg.count; }
 	public static void decCount() { Egg.count--; }
+    public static void resetCount() { Egg.count = 0; }
 }
