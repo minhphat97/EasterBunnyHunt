@@ -87,25 +87,8 @@ public class Maze extends JPanel implements ActionListener
         setFocusable(true);
         setBackground(Color.green);
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
-        rabbit = new Hero(50, 50);
-        enemies = new ArrayList<Enemy>();
-        enemies.add(new Bat(200, 100));
-        enemies.add(new Hunter(200, 100));
-        enemies.add(new Wolf(150, 150));
 
-        //TODO: Read from file
-        for (int r = 0; r < N_ROW; ++r) {
-            for (int c = 0; c < N_COL; ++c) {
-                if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
-                    levelData[r][c] = WALL;
-                } else {
-                    levelData[r][c] = EMPTY;
-                }
-            }
-        }
-        levelData[4][7] = EGG;
-        levelData[5][15] = DOOR;
-
+        createLevel();
         initLevel();
 
         timer.start();
@@ -154,6 +137,12 @@ public class Maze extends JPanel implements ActionListener
                     sawStart = false;
                     finish = false;
                     win = false;
+                    gameTimer = 0;
+
+                    timer.stop();
+                    createLevel();
+                    initLevel();
+                    timer.restart();
                 }
             } else if (pause) {
                 if (key == KeyEvent.VK_SPACE) {
@@ -187,6 +176,32 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
+    private void createLevel() {
+        /**
+         * Generate the data for a level.
+         * Automatic garbage collection should clean up the old values.
+         */
+
+        rabbit = new Hero(50, 50);
+
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Bat(200, 100));
+        enemies.add(new Hunter(200, 100));
+        enemies.add(new Wolf(150, 150));
+
+        // TODO: Read this data from a file.
+        for (int r = 0; r < N_ROW; ++r) {
+            for (int c = 0; c < N_COL; ++c) {
+                if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
+                    levelData[r][c] = WALL;
+                } else {
+                    levelData[r][c] = EMPTY;
+                }
+            }
+        }
+        levelData[4][7] = EGG;
+        levelData[5][15] = DOOR;
+    }
 
     private void initLevel()
     {
@@ -195,7 +210,7 @@ public class Maze extends JPanel implements ActionListener
                 switch (levelData[r][c]) {
                     case EMPTY: screenData[r][c] = new Cell(); break;
                     case WALL: screenData[r][c] = new Wall(); break;
-                    case EGG: screenData[r][c] = new Egg();break;
+                    case EGG: screenData[r][c] = new Egg(); break;
                     case DOOR: screenData[r][c] = new Door(); break;
                 }
             }
