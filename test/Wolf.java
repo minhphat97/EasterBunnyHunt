@@ -14,6 +14,7 @@ public class Wolf extends Enemy {
         }
 
         this.image_last = Wolf.image_left;
+        this.speed = 2;
     }
 
     @Override
