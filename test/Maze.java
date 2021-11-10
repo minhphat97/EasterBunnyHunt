@@ -80,8 +80,8 @@ public class Maze extends JPanel implements ActionListener
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
         rabbit = new Hero(50, 50);
         enemies = new ArrayList<Enemy>();
+        enemies.add(new Bat(100, 100));
         enemies.add(new Hunter(200, 100));
-        enemies.add(new Hunter(100, 100));
 
         for (int r = 0; r < N_ROW; ++r) {
             for (int c = 0; c < N_COL; ++c) {
