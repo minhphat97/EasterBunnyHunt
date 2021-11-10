@@ -34,13 +34,14 @@ public class Hero extends Character {
         long t = System.currentTimeMillis();
         if (t >= this.lastHit + Hero.hitInterval) {
             this.lastHit = t;
-            if ((this.score -= n) < 0)
-                this.setDead();
+            this.score -= n;
         }
     }
 
     public void setDead() { this.dead = true; }
-    public boolean isDead() { return this.dead; }
+    public boolean isDead() {
+        return (this.dead = this.dead || this.score < 0);
+    }
 
     @Override
     public Image getImage() {
