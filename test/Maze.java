@@ -38,7 +38,7 @@ public class Maze extends JPanel implements ActionListener
     private final int N_ROW = 9;
     private final int N_COL = 16;
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
-    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE;
+    private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + 175;
     private int score;
     private int key_x, key_y;
 
@@ -86,7 +86,7 @@ public class Maze extends JPanel implements ActionListener
         addKeyListener(new Key());
         setFocusable(true);
         setBackground(Color.green);
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 
         createLevel();
         initLevel();
@@ -557,44 +557,91 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
-    //new
-    private void showRule(Graphics g){
-        g.drawImage(ruleScreen,0,0, this);
-        String s = "Rule Screen: Press Space";
-        g.setColor(Color.white);
+    private void showRule(Graphics g) {
+        g.drawImage(ruleScreen, 0, 0, this);
         g.setFont(smallFont);
-        g.drawString(s, 300, 200);
+
+        String s[] = {
+            "RULES",
+            "",
+            "Collect rainbow eggs to open the portal",
+            "Collect golden eggs to get bonuses",
+            "Avoid all other objects",
+            "Enter the portal to win",
+            "",
+            "Press <space> to continue"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
     }
-    private void showPause(Graphics g){
-        g.drawImage(pauseScreen,0,0, this);
-        String s = "Pause Screen: Press Space to unpause or esp to quit";
-        g.setColor(Color.white);
+
+    private void showPause(Graphics g) {
+        g.drawImage(pauseScreen, 0, 0, this);
         g.setFont(smallFont);
-        g.drawString(s, 300, 200);
+
+        String s[] = {
+            "PAUSED",
+            "",
+            "Press <space> to resume",
+            "Press <esc> to quit"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
+
         timer.stop();
     }
-    private void showStart(Graphics g){
-        g.drawImage(introScreen,0,0, this);
-        g.drawImage(pauseScreen,0,0, this);
-        String s = "Intro Screen: Press Space to start";
-        g.setColor(Color.white);
+
+    private void showStart(Graphics g) {
+        g.drawImage(introScreen, 0, 0, this);
         g.setFont(smallFont);
-        g.drawString(s, 300, 200);
+
+        String s[] = {
+            "EASTER BUNNY HUNT",
+            "",
+            "Press <space> to start"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
     }
+
     private void showFinish(Graphics g){
-        if(win){
-            g.drawImage(winScreen,0,0, this);
+        if (win) {
+            g.drawImage(winScreen, 0, 0, this);
+        } else {
+            g.drawImage(loseScreen, 0, 0, this);
         }
-        else{
-            g.drawImage(loseScreen,0,0, this);
-        }
-        String s = "Time: "+ (int)(gameTimer / 3600) + " : " + (int)((gameTimer / 60) % 60) + " : " + (int)(gameTimer % 60) + "      Score: " + rabbit.getScore();
-        g.setColor(Color.white);
+
         g.setFont(smallFont);
-        g.drawString(s, 300, 200);
-        String a = "Finish Screen: Press Space to quit";
-        g.drawString(a, 300, 300);
 
+        String s[] = {
+            win ? "YOU WIN" : "YOU LOSE",
+            "",
+            "Time: " + (int) (gameTimer / 3600) + ":" + (int) ((gameTimer / 60) % 60) + ":" + (int) (gameTimer % 60),
+            "Score: " + rabbit.getScore(),
+            "",
+            "Press <space> to play again"
+        };
+
+        var fm = g.getFontMetrics(smallFont);
+        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
+        for (int i = 0; i < s.length; ++i) {
+            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
+            g.drawString(s[i], x, y + i * fm.getHeight());
+        }
     }
-
 }
