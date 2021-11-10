@@ -158,7 +158,8 @@ public class Maze extends JPanel implements ActionListener
                 }
             }
             else if (playing && !sawRule){
-                sawRule = true;
+                if (key == KeyEvent.VK_SPACE)
+                {sawRule = true;}
             }
             else if (playing && pause){
                 if (key == KeyEvent.VK_ENTER){
@@ -171,11 +172,13 @@ public class Maze extends JPanel implements ActionListener
                 }
             }
             else if(playing && finish){
-                playing = false;
-                pause = false;
-                sawRule = false;
-                finish = false;
-                win = false;
+                if(key==KeyEvent.VK_SPACE){
+                    playing = false;
+                    pause = false;
+                    sawRule = false;
+                    finish = false;
+                    win = false;
+                }
             }
             else{
                 if(key==KeyEvent.VK_SPACE)
@@ -503,6 +506,10 @@ public class Maze extends JPanel implements ActionListener
                 this.rabbit.hit(3);
                 break;
             }
+            /*if (rabbit.getScore() < 0) //new, disable for now because it dead to easily
+            {
+                finish = true;
+            }*/
         }
     }
 
@@ -549,13 +556,26 @@ public class Maze extends JPanel implements ActionListener
     //new
     private void showRule(Graphics g){
         g.drawImage(ruleScreen,0,0, this);
+        String s = "Rule Screen: Press Space";
+        g.setColor(Color.white);
+        g.setFont(smallFont);
+        g.drawString(s, 300, 200);
     }
     private void showPause(Graphics g){
         g.drawImage(pauseScreen,0,0, this);
+        String s = "Pause Screen: Press Space to unpause or esp to quit";
+        g.setColor(Color.white);
+        g.setFont(smallFont);
+        g.drawString(s, 300, 200);
         timer.stop();
     }
     private void showStart(Graphics g){
         g.drawImage(introScreen,0,0, this);
+        g.drawImage(pauseScreen,0,0, this);
+        String s = "Intro Screen: Press Space to start";
+        g.setColor(Color.white);
+        g.setFont(smallFont);
+        g.drawString(s, 300, 200);
     }
     private void showFinish(Graphics g){
         if(win){
@@ -564,6 +584,13 @@ public class Maze extends JPanel implements ActionListener
         else{
             g.drawImage(loseScreen,0,0, this);
         }
+        String s = "Time: "+ (int)(gameTimer / 3600) + " : " + (int)((gameTimer / 60) % 60) + " : " + (int)(gameTimer % 60) + "      Score: " + rabbit.getScore();
+        g.setColor(Color.white);
+        g.setFont(smallFont);
+        g.drawString(s, 300, 200);
+        String a = "Finish Screen: Press Space to quit";
+        g.drawString(a, 300, 300);
+
     }
 
 }
