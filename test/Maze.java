@@ -73,7 +73,6 @@ public class Maze extends JPanel implements ActionListener
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
         timer = new Timer(DELAY, this);
-        timer.start();
         addKeyListener(new Key());
         setFocusable(true);
         setBackground(Color.green);
@@ -97,6 +96,7 @@ public class Maze extends JPanel implements ActionListener
 
         initLevel();
 
+        timer.start();
     }
     class Key extends KeyAdapter
     {
