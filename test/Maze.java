@@ -452,9 +452,8 @@ public class Maze extends JPanel implements ActionListener {
                 if (Egg.getCount() == 0)
                     Door.open();
             } else if (nextEnv instanceof Door) {
-                System.out.println("Win!");
-                finish = true; //new
-                win = true; //new
+                finish = true;
+                win = true;
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
                 screenData[data[0]][data[1]] = new Cell();
                 int bonus = (int) (Math.random() * 5);
@@ -470,7 +469,7 @@ public class Maze extends JPanel implements ActionListener {
                 respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
             } else if (nextEnv instanceof SpeedBonus) {
                 screenData[data[0]][data[1]] = new Cell();
-                rabbit.setSpeed(10);
+                rabbit.setSpeed(6);
                 rabbit.isFast = true;
                 speedTimer += BONUSDURATION;
                 onScreen = false;
@@ -497,7 +496,6 @@ public class Maze extends JPanel implements ActionListener {
         }
 
         finish = finish || rabbit.isDead();
-        System.out.println(rabbit.isDead());
     }
 
     // Classes for frozen egg, checks if enemies should still be frozen.
@@ -506,13 +504,13 @@ public class Maze extends JPanel implements ActionListener {
             enemyFrozen = false;  // unfreeze the enemies
             unFreezeEnemies();
         } else {
-            freezeTimer = freezeTimer - (double)DELAY/1000;
+            freezeTimer = freezeTimer - (double) DELAY / 1000;
         }
     }
 
     private void unFreezeEnemies() {
         for (var e : enemies) {
-            e.setSpeed(3);
+            e.setDefaultSpeed();
         }
     }
 
@@ -527,7 +525,7 @@ public class Maze extends JPanel implements ActionListener {
         if ((int) speedTimer == 0) {
             // Return hero to normal speed.
             rabbit.isFast = false;
-            rabbit.setSpeed(3);
+            rabbit.setDefaultSpeed();
         } else {
             speedTimer = speedTimer - (double) DELAY / 1000;
         }

@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public abstract class Character extends GameObject {
     protected int x, y;
     protected int deltaX, deltaY;
-    protected int speed = 3;
+    protected int defaultSpeed = 3, speed;
 
     // All characters have multiple images depending on which way they're
     // facing (based on movement). This variable saves the last such image to
@@ -15,6 +15,7 @@ public abstract class Character extends GameObject {
     public Character(int initialX, int initialY) {
         this.x = initialX;
         this.y = initialY;
+        this.speed = defaultSpeed;
     }
 
     public int getX() { return this.x; }
@@ -27,6 +28,8 @@ public abstract class Character extends GameObject {
     public void setDeltaY(int n) { this.deltaY = n; }
     public int getSpeed() { return this.speed; }
     public void setSpeed(int n) { this.speed = n; }
+    public void setDefaultSpeed() { this.speed = this.defaultSpeed; }
+
     public void move() {
         this.x += this.speed * this.deltaX;
         this.y += this.speed * this.deltaY;

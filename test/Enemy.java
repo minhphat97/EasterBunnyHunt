@@ -3,6 +3,9 @@ public abstract class Enemy extends Character {
 
     public Enemy(int x, int y) {
         super(x, y);
+
+        this.defaultSpeed = 2;
+        this.speed = this.defaultSpeed;
     }
 
     public void nextMove(Hero h) {
