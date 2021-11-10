@@ -159,8 +159,7 @@ public class Maze extends JPanel implements ActionListener
                 if (key == KeyEvent.VK_SPACE) {
                     pause = false;
                 } else if (key == KeyEvent.VK_ESCAPE) {
-                    pause = false;
-                    sawStart = false;
+                    System.exit(0);
                 }
             } else {
                 if (key == KeyEvent.VK_ESCAPE) {
