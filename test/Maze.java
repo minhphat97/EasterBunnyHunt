@@ -30,9 +30,9 @@ public class Maze extends JPanel implements ActionListener
 
     boolean playing = false;
     boolean pause = false;
-    boolean sawRule = false;
-    boolean finish = false;
-    boolean win = false;
+    boolean sawRule = false; //new
+    boolean finish = false; //new
+    boolean win = false; //new
 
     private final int CELL_SIZE = 48 ;
     private final int N_ROW = 9;
@@ -61,7 +61,7 @@ public class Maze extends JPanel implements ActionListener
     private int bonusCol = 0;//index of the bonus
     private int bonusRow = 0;
 
-    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen;
+    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen; //new 
 
     public final short EMPTY = 0;
     public final short WALL = 1;
@@ -93,6 +93,7 @@ public class Maze extends JPanel implements ActionListener
         enemies.add(new Hunter(200, 100));
         enemies.add(new Wolf(150, 150));
 
+        //TODO: Read from file
         for (int r = 0; r < N_ROW; ++r) {
             for (int c = 0; c < N_COL; ++c) {
                 if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
@@ -135,7 +136,7 @@ public class Maze extends JPanel implements ActionListener
             }
         }
 
-        @Override
+        @Override //new
         public void keyPressed(KeyEvent e) {
             Integer key = e.getKeyCode();
 
@@ -279,7 +280,7 @@ public class Maze extends JPanel implements ActionListener
             }
         }
     }
-    private void startDrawing(Graphics g)
+    private void startDrawing(Graphics g) //new
     {
         if (playing && sawRule && !finish &&!pause){
             drawMaze(g);
@@ -460,8 +461,8 @@ public class Maze extends JPanel implements ActionListener
                     Door.open();
             } else if (nextEnv instanceof Door) {
                 System.out.println("Win!");
-                finish = true;
-                win = true;
+                finish = true; //new
+                win = true; //new
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
                 screenData[data[0]][data[1]] = new Cell();
                 int bonus = (int) (Math.random() * 5);
@@ -545,6 +546,7 @@ public class Maze extends JPanel implements ActionListener
         }
     }
 
+    //new
     private void showRule(Graphics g){
         g.drawImage(ruleScreen,0,0, this);
     }
