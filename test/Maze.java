@@ -79,8 +79,9 @@ public class Maze extends JPanel implements ActionListener
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT+175));//extra height for the score and timer
         rabbit = new Hero(50, 50);
         enemies = new ArrayList<Enemy>();
+        enemies.add(new Bat(100, 100));
         enemies.add(new Hunter(200, 100));
-        enemies.add(new Hunter(100, 100));
+        enemies.add(new Wolf(150, 150));
 
         for (int r = 0; r < N_ROW; ++r) {
             for (int c = 0; c < N_COL; ++c) {
@@ -262,6 +263,7 @@ public class Maze extends JPanel implements ActionListener
             checkSpeedBonus();
         }
         checkCollision(rabbit);
+        checkHero();
         rabbit.move();
         g.drawImage(rabbit.getImage(), rabbit.getX(), rabbit.getY(), this);
     }
@@ -272,7 +274,7 @@ public class Maze extends JPanel implements ActionListener
             checkFrozen();
         }
         for (var e : enemies) {
-            e.nextMove();
+            e.nextMove(rabbit);
             checkCollision(e);
             e.move();
             g.drawImage(e.getImage(), e.getX(), e.getY(), this);
@@ -333,6 +335,9 @@ public class Maze extends JPanel implements ActionListener
          *   - Wall
          *   - Egg
          *   - Door
+         *   - ScoreBonus
+         *   - FreezeBonus
+         *   - SpeedBonus
          *
          * @param  c  The character for which to check collisions.
          */
@@ -406,6 +411,25 @@ public class Maze extends JPanel implements ActionListener
                 speedTimer += BONUSDURATION;
                 onScreen = false;
                 respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+            }
+        }
+    }
+
+    private void checkHero() {
+        /**
+         * Checks the hero for collisions with any enemies.
+         * This differs from ``checkCollision()'' in that this holds the
+         * additional checks meant for the hero only whereas the other one is
+         * more general and works for any ``Character'' object.
+         */
+
+        double dx, dy;
+        for (var e : this.enemies) {
+            dx = (double) e.getX() - this.rabbit.getX();
+            dy = (double) e.getY() - this.rabbit.getY();
+            if (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) <= CELL_SIZE) {
+                this.rabbit.hit(3);
+                break;
             }
         }
     }
