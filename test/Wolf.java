@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 
 public class Wolf extends Enemy {
     private static Image image_left, image_right;
-    private static double chasePercentage = 0.5;
 
     public Wolf(int x, int y) {
         super(x, y);
@@ -29,7 +28,7 @@ public class Wolf extends Enemy {
         if ((this.deltaX != 0 || this.deltaY != 0) && Math.random() > turnPercentage)
             return;
 
-        if ((h.getX() != this.x || h.getY() != this.y) && Math.random() < Wolf.chasePercentage) {
+        if (h.getX() != this.x || h.getY() != this.y) {
             var chaseDirections = new ArrayList<int[]>();
 
             if (h.getX() < this.x)
