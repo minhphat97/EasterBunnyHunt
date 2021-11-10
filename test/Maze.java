@@ -28,11 +28,11 @@ public class Maze extends JPanel implements ActionListener
     private Hero rabbit;
     private ArrayList<Enemy> enemies;
 
-    boolean playing = false;
     boolean pause = false;
-    boolean sawRule = false; //new
-    boolean finish = false; //new
-    boolean win = false; //new
+    boolean sawStart = false;
+    boolean sawRule = false;
+    boolean finish = false;
+    boolean win = false;
 
     private final int CELL_SIZE = 48 ;
     private final int N_ROW = 9;
@@ -61,7 +61,7 @@ public class Maze extends JPanel implements ActionListener
     private int bonusCol = 0;//index of the bonus
     private int bonusRow = 0;
 
-    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen; //new 
+    private Image introScreen,ruleScreen,pauseScreen,winScreen,loseScreen;
 
     public final short EMPTY = 0;
     public final short WALL = 1;
@@ -136,16 +136,36 @@ public class Maze extends JPanel implements ActionListener
             }
         }
 
-        @Override //new
+        @Override
         public void keyPressed(KeyEvent e) {
             Integer key = e.getKeyCode();
 
-            if (playing && sawRule && !pause && !finish){
-                
-                if (key == KeyEvent.VK_ESCAPE){
-                    pause = true;
+            if (!sawStart) {
+                if (key == KeyEvent.VK_SPACE) {
+                    sawStart = true;
                 }
-                else{
+            } else if (!sawRule) {
+                if (key == KeyEvent.VK_SPACE) {
+                    sawRule = true;
+                }
+            } else if (finish) {
+                if (key == KeyEvent.VK_SPACE) {
+                    pause = false;
+                    sawStart = false;
+                    finish = false;
+                    win = false;
+                }
+            } else if (pause) {
+                if (key == KeyEvent.VK_SPACE) {
+                    pause = false;
+                } else if (key == KeyEvent.VK_ESCAPE) {
+                    pause = false;
+                    sawStart = false;
+                }
+            } else {
+                if (key == KeyEvent.VK_ESCAPE) {
+                    pause = true;
+                } else {
                     boolean allowed = false;
                     for (var n : this.allowedKeys)
                         allowed = allowed || (n == key);
@@ -156,33 +176,6 @@ public class Maze extends JPanel implements ActionListener
                     this.keyStack.push(key);
                     this.processDirection();
                 }
-            }
-            else if (playing && !sawRule){
-                if (key == KeyEvent.VK_SPACE)
-                {sawRule = true;}
-            }
-            else if (playing && pause){
-                if (key == KeyEvent.VK_ENTER){
-                    pause = false;
-                }
-                else if (key == KeyEvent.VK_ESCAPE) {
-                    playing = false;
-                    pause = false;
-                    sawRule = false;  
-                }
-            }
-            else if(playing && finish){
-                if(key==KeyEvent.VK_SPACE){
-                    playing = false;
-                    pause = false;
-                    sawRule = false;
-                    finish = false;
-                    win = false;
-                }
-            }
-            else{
-                if(key==KeyEvent.VK_SPACE)
-                    {playing = true;}
             }
         }
 
@@ -283,35 +276,32 @@ public class Maze extends JPanel implements ActionListener
             }
         }
     }
-    private void startDrawing(Graphics g) //new
-    {
-        if (playing && sawRule && !finish &&!pause){
+
+    private void startDrawing(Graphics g) {
+        if (!sawStart) {
+            showStart(g);
+        } else if (!sawRule) {
+            showRule(g);
+        } else if (finish) {
+            showFinish(g);
+        } else if (pause) {
+            showPause(g);
+        } else {
             drawMaze(g);
             drawTimer(g);
             drawScore(g);
             drawHero(g);
             drawEnemy(g);
             drawPauseInfo(g);
-            if(enemyFrozen)//draw bonus effect durations if applicable
-            {
+
+            // Draw bonus effect durations if applicable.
+            if(enemyFrozen) {
                 drawFreezeTimer(g);
-            }
-            if(rabbit.isFast)
-            {
+            } 
+
+            if(rabbit.isFast) {
                 drawSpeedTimer(g);
             }
-        }
-        else if (playing && pause){
-            showPause(g);
-        }
-        else if (playing && !sawRule){
-            showRule(g);
-        }
-        else if (playing && finish){
-            showFinish(g);
-        }
-        else{
-            showStart(g);
         }
 
         Toolkit.getDefaultToolkit().sync();
