@@ -82,6 +82,7 @@ public class Maze extends JPanel implements ActionListener
         enemies = new ArrayList<Enemy>();
         enemies.add(new Bat(100, 100));
         enemies.add(new Hunter(200, 100));
+        enemies.add(new Wolf(150, 150));
 
         for (int r = 0; r < N_ROW; ++r) {
             for (int c = 0; c < N_COL; ++c) {
@@ -273,7 +274,7 @@ public class Maze extends JPanel implements ActionListener
             checkFrozen();
         }
         for (var e : enemies) {
-            e.nextMove();
+            e.nextMove(rabbit);
             checkCollision(e);
             e.move();
             g.drawImage(e.getImage(), e.getX(), e.getY(), this);
