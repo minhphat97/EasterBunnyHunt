@@ -9,8 +9,8 @@ public class Wolf extends Enemy {
     public Wolf(int x, int y) {
         super(x, y);
         if (Wolf.image_left == null) {
-            Wolf.image_left = new ImageIcon("images/48_bat_left.gif").getImage();
-            Wolf.image_right = new ImageIcon("images/48_bat_right.gif").getImage();
+            Wolf.image_left = new ImageIcon("images/48_wolf_left.gif").getImage();
+            Wolf.image_right = new ImageIcon("images/48_wolf_right.gif").getImage();
         }
 
         this.image_last = Wolf.image_left;

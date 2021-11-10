@@ -1,13 +1,17 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
-public class ScoreBonus extends Environment{
 
+
+public class ScoreBonus extends Environment {
     private static Image image = null;
-    private final int RANGE = 5;//number range for maximum score bonus (0 to RANGE)
+
+    // Number range for maximum score bonus (0 to RANGE).
+    private final int RANGE = 5;
+
     ScoreBonus() {
         super();
         if (ScoreBonus.image == null) {
-            ScoreBonus.image = new ImageIcon("images/tree.png").getImage();
+            ScoreBonus.image = new ImageIcon("images/48_bonus_egg.png").getImage();
         }
     }
 
