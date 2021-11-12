@@ -209,6 +209,24 @@ public class Maze extends JPanel implements ActionListener {
                 }
             }
         }
+        // CREATE COMPLEX MATRIX
+        for (int c = 12; c < N_COL; ++c ) {
+            levelData[8][c] = WALL;
+        }
+
+        for (int r = 1; r < 3; ++r ) {
+            levelData[r][20] = WALL;
+        }
+
+        for (int c = 3; c < 8; ++c ) {
+            levelData[6][c] = WALL;
+        }
+
+        for (int r = 3; r < 6; ++r ) {
+            levelData[r][3] = WALL;
+        }
+
+
         levelData[4][7] = EGG;
         levelData[3][23] = DOOR;
         levelData[6][9] = TRAP;
