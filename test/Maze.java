@@ -11,13 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Stack;
 
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
 
@@ -49,20 +51,23 @@ public class Maze extends JPanel implements ActionListener {
 
     private Timer timer;
     private final int DELAY = 40;  // added final for delay, used for in game timer
-    private double gameTimer = 0;  // keeps track of playing time
+    private double gameTimer;  // keeps track of playing time
+    private double startTime;
+    private double pauseDelay;
 
     // Bonus vars.
     private boolean enemyFrozen = false;
-    private final int BONUSDURATION = 5; // duration in seconds for the bonus effects to last
-    private double freezeTimer = 0;  // timers required for bunus durations
-    private double speedTimer = 0;
+    private final int BONUSDURATION = 7; // duration in seconds for the bonus effects to last
+    private final int TRAPDURATION = 2;
+    private double freezeTimer;  // timers required for bunus durations
+    private double speedTimer;
     private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
-    private double bonusTimer = 0;  // timer to count down while bonus is on screen
-    private double respawnTimer = 0;  // timer to count down till next bonus
-    private double trapTimer = 0; // timer to count down to keep bunny stop
+    private double bonusTimer;  // timer to count down while bonus is on screen
+    private double respawnTimer;  // timer to count down till next bonus
+    private double trapTimer; // timer to count down to keep bunny stop
     private boolean onScreen = false;  // indicate if there is bonus currently on the screen
-    private int bonusCol = 0;  // index of the bonus
-    private int bonusRow = 0;
+    private int bonusCol;  // index of the bonus
+    private int bonusRow;
 
     private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen;
 
@@ -104,7 +109,7 @@ public class Maze extends JPanel implements ActionListener {
     class Key extends KeyAdapter {
         // This cannot be static because inner classes are lame.
         private int[] allowedKeys = {
-            KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D
+                KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D
         };
 
         // Stack of Integers to keep track of which direction we're moving.
@@ -132,10 +137,13 @@ public class Maze extends JPanel implements ActionListener {
             if (!sawStart) {
                 if (key == KeyEvent.VK_SPACE) {
                     sawStart = true;
+                    startTime = System.currentTimeMillis();//for recurring games, reset timer
+                    pauseDelay = 0;
                 }
             } else if (!sawRule) {
                 if (key == KeyEvent.VK_SPACE) {
                     sawRule = true;
+                    startTime = System.currentTimeMillis();//for 1st time playing
                 }
             } else if (finish) {
                 if (key == KeyEvent.VK_SPACE) {
@@ -143,10 +151,8 @@ public class Maze extends JPanel implements ActionListener {
                     sawStart = false;
                     finish = false;
                     win = false;
-                    gameTimer = 0;
-
                     timer.stop();
-
+                    gameTimer = 0;
                     Egg.resetCount();
                     Door.close();
                     createLevel();
@@ -156,6 +162,7 @@ public class Maze extends JPanel implements ActionListener {
                 }
             } else if (pause) {
                 if (key == KeyEvent.VK_SPACE) {
+                    pauseDelay = (System.currentTimeMillis()-startTime-gameTimer*1000);//find time passed while paused (ms)
                     pause = false;
                 } else if (key == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
@@ -193,47 +200,45 @@ public class Maze extends JPanel implements ActionListener {
          */
 
         rabbit = new Hero(50, 50);
-
         enemies = new ArrayList<Enemy>();
         enemies.add(new Bat(400, 100));
         enemies.add(new Hunter(300, 150));
         enemies.add(new Wolf(400, 200));
+        readLevel();//reads data from a map
+    }
 
-        // TODO: Read this data from a file.
-        for (int r = 0; r < N_ROW; ++r) {
-            for (int c = 0; c < N_COL; ++c) {
-                if (r == 0 || r == N_ROW - 1 || c == 0 || c == N_COL - 1) {
-                    levelData[r][c] = WALL;
-                } else {
-                    levelData[r][c] = EMPTY;
+
+    private void readLevel()
+    {
+        /**
+         * reads map matrix from text file into levelData
+         * Sets the map for the game
+         */
+        try {
+            File myObj = new File("maps/map1.txt");
+            Scanner myReader = new Scanner(myObj);//to read through file
+            int r = 0;
+            while (r < N_ROW) {
+                String wholeRow = myReader.nextLine();//read and save next line in file
+                String[] rowData = wholeRow.split(",", N_COL);//split up row into elements
+                int c=0;
+                for(String obj:rowData)
+                {
+                    levelData[r][c] = Short.parseShort(obj);//assign to proper location
+                    c++;
                 }
+                r++;
             }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred loading map from file.");
         }
-        // CREATE COMPLEX MATRIX
-        for (int c = 12; c < N_COL; ++c ) {
-            levelData[8][c] = WALL;
-        }
-
-        for (int r = 1; r < 3; ++r ) {
-            levelData[r][20] = WALL;
-        }
-
-        for (int c = 3; c < 8; ++c ) {
-            levelData[6][c] = WALL;
-        }
-
-        for (int r = 3; r < 6; ++r ) {
-            levelData[r][3] = WALL;
-        }
-
-
-        levelData[4][7] = EGG;
-        levelData[3][23] = DOOR;
-        levelData[6][9] = TRAP;
-        levelData[3][3] = THORNBUSH;
     }
 
     private void initLevel() {
+        /**
+         * Translates the level map into objects at proper locations
+         */
         for (int r = 0; r < N_ROW; ++r) {
             for (int c = 0; c < N_COL; ++c) {
                 switch (levelData[r][c]) {
@@ -246,10 +251,17 @@ public class Maze extends JPanel implements ActionListener {
                 }
             }
         }
+        insertBonus();
     }
 
     // Find a random cell for a bonus to appear in, insert in random bonus in screendata cell.
     private void insertBonus() {
+        /**
+         * chooses a random bonus of the 3 available (freeze, score, speed)
+         * finds random empty cell and places bonus there in screenData array
+         * will be drawn on the screen from levelData during following cycle
+         * also sets time that bonus should disapear if not collected
+         */
         // Choose a random bonus.
         short bonus = BONUS[(int)(Math.round((Math.random() * 2)))];
 
@@ -274,9 +286,8 @@ public class Maze extends JPanel implements ActionListener {
                 screenData[r][c] = new SpeedBonus();
                 break;
         }
-
         onScreen = true;
-        bonusTimer = BONUSWAIT;  //start the waiting timer
+        bonusTimer = BONUSWAIT+gameTimer;  //start the waiting timer
         bonusCol = c;
         bonusRow = r;  //keep track of index of bonus in case it needs to be deleted
     }
@@ -290,29 +301,28 @@ public class Maze extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Determine next moves, collisions, and draw screen, called each clock cycle.
-        checkBonus();  // check if bonus should be inserted or taken off screen
         repaint();
     }
 
     // Function called each clock cycle.
     // Determines if bonus should be taken of the screen or add a new bonus onto screen.
     private void checkBonus() {
-        // Check if bonus should be taken off screen.
+        /**
+         * function checks if the bonus has been on the screen to long,
+         * Replaces bonus with empty cell if needed
+         * Also determines if a bonus should be spawned into game
+         */
         if (onScreen) {
-            if ((int) bonusTimer == 0) {
+            if ((int) bonusTimer == (int)gameTimer) {
                 screenData[bonusRow][bonusCol] = new Cell();  // remove from screen
                 onScreen = false;
-                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
-            } else {
-                bonusTimer -= ((double) DELAY) / 1000; // decrement timer
+                resetRespawnTime();
             }
         } else {
-            // Check if it should be shown on the screen
-            if ((int) respawnTimer <= 0) {
+            // Check if bonus should be shown on the screen
+            if ((int) respawnTimer == (int)gameTimer) {
                 // Add a bonus onto the screen.
                 insertBonus();
-            } else {
-                respawnTimer -= ((double)DELAY) / 1000;
             }
         }
     }
@@ -327,20 +337,22 @@ public class Maze extends JPanel implements ActionListener {
         } else if (pause) {
             showPause(g);
         } else {
+            checkBonus();  // check if bonus should be inserted or taken off screen
             drawMaze(g);
             drawTimer(g);
             drawScore(g);
             drawHero(g);
             drawEnemy(g);
             drawPauseInfo(g);
-
             // Draw bonus effect durations if applicable.
             if(enemyFrozen) {
                 drawFreezeTimer(g);
-            } 
-
+            }
             if(rabbit.isFast) {
                 drawSpeedTimer(g);
+            }
+            if(rabbit.isTrap){
+                drawTrapTimer(g);
             }
         }
 
@@ -384,41 +396,57 @@ public class Maze extends JPanel implements ActionListener {
         }
     }
 
-    // Function to display in game timer.
-    private void drawTimer(Graphics g) {
+
+    private void drawTimer(Graphics g){
+        /**
+         * draws game playing timer in bottom right of screen
+         * time displayed in hour:min:sec
+         */
         int hour, min, sec, gameTimerS;
-        gameTimer += (double) DELAY / 1000;  // keep track of game time in seconds
-        gameTimerS = (int) gameTimer;
+        //calculate playing time based on current time and paused time
+        gameTimer = (System.currentTimeMillis() - (startTime+pauseDelay))/ 1000;
+        gameTimerS = (int)gameTimer;
         sec = gameTimerS % 60;
         min = (gameTimerS / 60) % 60;
         hour = gameTimerS / 3600;
         g.setFont(smallFont);
-
-        // Display in hour:min:sec format.
         g.drawString("Time: " + hour + ":" + min + ":" + sec, 24, SCREEN_HEIGHT - 26);
     }
 
-    // Functoin to draw score, score depends on bonuses, regular eggs, and traps.
+
     private void drawScore(Graphics g) {
+        /**
+         * function draws game score which depends on bonuses, regular eggs, and traps
+         */
         g.setFont(smallFont);
         g.drawString("Score: " + rabbit.getScore(), 245, SCREEN_HEIGHT - 26);
     }
 
-    // Draws a little message to remind user how to pause.
+
     private void drawPauseInfo(Graphics g) {
+        /**
+         * displays hint message on screen detailing how to pause
+         */
         g.setFont(new Font("MV Boli", Font.PLAIN, 12));
         g.drawString("Press <esc> to pause!", SCREEN_WIDTH - 140, SCREEN_HEIGHT - 13);
     }
 
-    // Draw bonus effect timers
+
     private void drawFreezeTimer(Graphics g) {
         g.setFont(smallFont);
-        g.drawString("Freeze boost time: " + (int) freezeTimer, 420, SCREEN_HEIGHT - 26);
+        double timeLeft = freezeTimer - gameTimer;
+        g.drawString("Freeze boost time: " + (int) timeLeft, 420, SCREEN_HEIGHT - 26);
     }
 
     private void drawSpeedTimer(Graphics g) {
         g.setFont(smallFont);
-        g.drawString("Speed boost time: " + (int) speedTimer, 770, SCREEN_HEIGHT - 26);
+        double timeLeft = speedTimer - gameTimer;
+        g.drawString("Speed boost time: " + (int)timeLeft, 770, SCREEN_HEIGHT - 26);
+    }
+    private void drawTrapTimer(Graphics g) {
+        g.setFont(smallFont);
+        double timeLeft = trapTimer - gameTimer;
+        g.drawString("Trapped time: " + (int)timeLeft, 770, SCREEN_HEIGHT - 26);
     }
 
     private void checkCollision(Character c) {
@@ -492,29 +520,30 @@ public class Maze extends JPanel implements ActionListener {
                 win = true;
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
                 screenData[data[0]][data[1]] = new Cell();
-                int bonus = (int) (Math.random() * 5);
+                int bonus = (int) (Math.random() * 5) + 1;
                 rabbit.setScore(rabbit.getScore() + bonus);
                 onScreen = false;
-                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+                resetRespawnTime();
             } else if (nextEnv instanceof FreezeBonus) {
                 screenData[data[0]][data[1]] = new Cell();
                 enemyFrozen = true;
                 freezeEnemies();
-                freezeTimer += BONUSDURATION;  // set the freeze timer to begin
+                freezeTimer = BONUSDURATION + gameTimer;  // set the freeze timer to begin
                 onScreen = false;  // bonus no longer on screen
-                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+                resetRespawnTime();
             } else if (nextEnv instanceof SpeedBonus) {
                 screenData[data[0]][data[1]] = new Cell();
-                rabbit.setSpeed(6);
                 rabbit.isFast = true;
-                speedTimer += BONUSDURATION;
+                rabbit.setSpeed(6);
+                speedTimer = BONUSDURATION + gameTimer;
                 onScreen = false;
-                respawnTimer = 5 + (int) (Math.random() * 10);  // wait up to 10 secs for next bonus
+                resetRespawnTime();
             } else if (nextEnv instanceof TrapPunishment) {
                 screenData[data[0]][data[1]] = new Cell();
                 rabbit.setSpeed(0);
                 rabbit.isTrap = true;
-                trapTimer += BONUSDURATION;
+                rabbit.isFast = false;//also lose speed boost if in trap
+                trapTimer = TRAPDURATION + gameTimer;
             } else if (nextEnv instanceof ThornBushPunishment) {
                 screenData[data[0]][data[1]] = new Cell();
                 rabbit.setScore(rabbit.getScore()-1);
@@ -522,6 +551,12 @@ public class Maze extends JPanel implements ActionListener {
             }
 
         }
+    }
+    private void resetRespawnTime(){
+        /**
+         * resets the time to indicate when the next bonus should respawn
+         */
+        respawnTimer = gameTimer+5 + (int) (Math.random() * 10);  // wait up to 15 secs for next bonus
     }
 
     private void checkHero() {
@@ -544,22 +579,21 @@ public class Maze extends JPanel implements ActionListener {
         finish = finish || rabbit.isDead();
     }
 
-    // Classes for frozen egg, checks if enemies should still be frozen.
+    // function for frozen egg, checks if enemies should still be frozen.
     private void checkFrozen() {
-        if ((int) freezeTimer <= 0) {
+        if ((int) freezeTimer == (int)gameTimer) {
             enemyFrozen = false;  // unfreeze the enemies
             unFreezeEnemies();
-        } else {
-            freezeTimer = freezeTimer - (double) DELAY / 1000;
         }
     }
 
+    //enemies become movable again
     private void unFreezeEnemies() {
         for (var e : enemies) {
             e.setDefaultSpeed();
         }
     }
-
+    //function stops enemys from moving, called when freeze bonus received
     private void freezeEnemies() {
         for (var e : enemies) {
             e.setSpeed(0);
@@ -568,22 +602,19 @@ public class Maze extends JPanel implements ActionListener {
 
     // Function checks if hero should still have speed boost.
     private void checkSpeedBonus() {
-        if ((int) speedTimer == 0) {
+        if ((int) speedTimer == (int)gameTimer) {
             // Return hero to normal speed.
             rabbit.isFast = false;
             rabbit.setDefaultSpeed();
-        } else {
-            speedTimer = speedTimer - (double) DELAY / 1000;
         }
+
     }
 
     private void checkTrap() {
-        if ((int)trapTimer == 0) {
+        if ((int)trapTimer == (int)gameTimer) {
             rabbit.setDefaultSpeed();
-        } else {
-            trapTimer = trapTimer - (double) DELAY /1000;
+            rabbit.isTrap = false;
         }
-
     }
 
     private void showRule(Graphics g) {
@@ -591,14 +622,14 @@ public class Maze extends JPanel implements ActionListener {
         g.setFont(smallFont);
 
         String s[] = {
-            "RULES",
-            "",
-            "Collect rainbow eggs to open the portal",
-            "Collect golden eggs to get bonuses",
-            "Avoid all other objects",
-            "Enter the portal to win",
-            "",
-            "Press <space> to continue"
+                "RULES",
+                "",
+                "Collect rainbow eggs to open the portal",
+                "Collect golden eggs to get bonuses",
+                "Avoid all other objects",
+                "Enter the portal to win",
+                "",
+                "Press <space> to continue"
         };
 
         var fm = g.getFontMetrics(smallFont);
@@ -614,10 +645,10 @@ public class Maze extends JPanel implements ActionListener {
         g.setFont(smallFont);
 
         String s[] = {
-            "PAUSED",
-            "",
-            "Press <space> to resume",
-            "Press <esc> to quit"
+                "PAUSED",
+                "",
+                "Press <space> to resume",
+                "Press <esc> to quit"
         };
 
         var fm = g.getFontMetrics(smallFont);
@@ -635,9 +666,9 @@ public class Maze extends JPanel implements ActionListener {
         g.setFont(smallFont);
 
         String s[] = {
-            "EASTER BUNNY HUNT",
-            "",
-            "Press <space> to start"
+                "EASTER BUNNY HUNT",
+                "",
+                "Press <space> to start"
         };
 
         var fm = g.getFontMetrics(smallFont);
@@ -658,12 +689,12 @@ public class Maze extends JPanel implements ActionListener {
         g.setFont(smallFont);
 
         String s[] = {
-            win ? "YOU WIN" : "YOU LOSE",
-            "",
-            "Time: " + (int) (gameTimer / 3600) + ":" + (int) ((gameTimer / 60) % 60) + ":" + (int) (gameTimer % 60),
-            "Score: " + rabbit.getScore(),
-            "",
-            "Press <space> to play again"
+                win ? "YOU WIN" : "YOU LOSE",
+                "",
+                "Time: " + (int) (gameTimer / 3600) + ":" + (int) ((gameTimer / 60) % 60) + ":" + (int) (gameTimer % 60),
+                "Score: " + rabbit.getScore(),
+                "",
+                "Press <space> to play again"
         };
 
         var fm = g.getFontMetrics(smallFont);
