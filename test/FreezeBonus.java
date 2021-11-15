@@ -7,7 +7,7 @@ public class FreezeBonus extends Environment {
     FreezeBonus() {
         super();
         if (FreezeBonus.image == null) {
-            FreezeBonus.image = new ImageIcon("images/48_bonus_egg.png").getImage();
+            FreezeBonus.image = new ImageIcon("images/freeze_bonus.png").getImage();
         }
     }
 

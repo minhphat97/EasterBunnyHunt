@@ -1,7 +1,7 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class TrapPunishment extends Environment{
+public class TrapPunishment extends Punishment{
     private static Image image = null;
 
     TrapPunishment() {

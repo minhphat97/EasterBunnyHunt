@@ -1,7 +1,7 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class ThornBushPunishment extends Environment{
+public class ThornBushPunishment extends Punishment{
     private static Image image = null;
 
     ThornBushPunishment() {
