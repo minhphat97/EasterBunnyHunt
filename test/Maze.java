@@ -69,7 +69,7 @@ public class Maze extends JPanel implements ActionListener {
     private int bonusCol;  // index of the bonus
     private int bonusRow;
 
-    private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen;
+    private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen, bgImage;
 
     public final short EMPTY = 0;
     public final short WALL = 1;
@@ -83,11 +83,12 @@ public class Maze extends JPanel implements ActionListener {
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
     public Maze() {
-        introScreen = new ImageIcon("images/48_rabbit_left.gif").getImage();
-        pauseScreen = new ImageIcon("images/48_rabbit_right.gif").getImage();
-        winScreen = new ImageIcon("images/48_rabbit_up.gif").getImage();
-        loseScreen = new ImageIcon("images/48_rabbit_down.gif").getImage();
-        ruleScreen = new ImageIcon("images/48_wolf_left.gif").getImage();
+        introScreen = new ImageIcon("images/intro.png").getImage();
+        pauseScreen = new ImageIcon("images/rule.png").getImage();
+        winScreen = new ImageIcon("images/win.png").getImage();
+        loseScreen = new ImageIcon("images/lose.png").getImage();
+        ruleScreen = new ImageIcon("images/rule.png").getImage();
+        bgImage = new ImageIcon("images/Background.png").getImage();
 
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
@@ -97,6 +98,7 @@ public class Maze extends JPanel implements ActionListener {
 
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setBackground(background);
+        setForeground(Color.WHITE);
         setFocusable(true);
 
         createLevel();
@@ -295,6 +297,7 @@ public class Maze extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(bgImage, 0, 0, null);
         startDrawing(g);
     }
 
@@ -663,20 +666,6 @@ public class Maze extends JPanel implements ActionListener {
 
     private void showStart(Graphics g) {
         g.drawImage(introScreen, 0, 0, this);
-        g.setFont(smallFont);
-
-        String s[] = {
-                "EASTER BUNNY HUNT",
-                "",
-                "Press <space> to start"
-        };
-
-        var fm = g.getFontMetrics(smallFont);
-        int y = (SCREEN_HEIGHT - fm.getHeight() * s.length) / 2;
-        for (int i = 0; i < s.length; ++i) {
-            int x = (SCREEN_WIDTH - fm.stringWidth(s[i])) / 2;
-            g.drawString(s[i], x, y + i * fm.getHeight());
-        }
     }
 
     private void showFinish(Graphics g){
