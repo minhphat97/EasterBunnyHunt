@@ -10,8 +10,8 @@ public class Door extends Environment {
 	Door() {
 		super();
 		if (Door.imageClose == null) {
-			Door.imageClose = new ImageIcon("images/48_portal_close.gif").getImage();
-			Door.imageOpen = new ImageIcon("images/48_portal_open.gif").getImage();
+			Door.imageClose = new ImageIcon("classes/images/48_portal_close.gif").getImage();
+			Door.imageOpen = new ImageIcon("classes/images/48_portal_open.gif").getImage();
         }
 	}
 

@@ -17,10 +17,10 @@ public class Hero extends Character {
     public Hero(int x, int y) {
         super(x, y);
         if (Hero.image_left == null) {
-            Hero.image_left = new ImageIcon("images/48_rabbit_left.gif").getImage();
-            Hero.image_right = new ImageIcon("images/48_rabbit_right.gif").getImage();
-            Hero.image_up = new ImageIcon("images/48_rabbit_up.gif").getImage();
-            Hero.image_down = new ImageIcon("images/48_rabbit_down.gif").getImage();
+            Hero.image_left = new ImageIcon("classes/images/48_rabbit_left.gif").getImage();
+            Hero.image_right = new ImageIcon("classes/images/48_rabbit_right.gif").getImage();
+            Hero.image_up = new ImageIcon("classes/images/48_rabbit_up.gif").getImage();
+            Hero.image_down = new ImageIcon("classes/images/48_rabbit_down.gif").getImage();
         }
 
         this.image_last = Hero.image_right;

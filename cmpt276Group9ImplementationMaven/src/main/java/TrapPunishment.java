@@ -7,7 +7,7 @@ public class TrapPunishment extends Punishment{
     TrapPunishment() {
         super();
         if (TrapPunishment.image == null) {
-            TrapPunishment.image = new ImageIcon("images/48_trap.gif").getImage();
+            TrapPunishment.image = new ImageIcon("classes/images/48_trap.gif").getImage();
         }
     }
 
