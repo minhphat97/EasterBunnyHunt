@@ -8,10 +8,10 @@ public class Hunter extends Enemy {
     public Hunter(int x, int y) {
         super(x, y);
         if (Hunter.image_left == null) {
-            Hunter.image_left = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_hunter_left.gif").getImage();
-            Hunter.image_right = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_hunter_right.gif").getImage();
-            Hunter.image_up = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_hunter_up.gif").getImage();
-            Hunter.image_down = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_hunter_down.gif").getImage();
+            Hunter.image_left = new ImageIcon("images/48_hunter_left.gif").getImage();
+            Hunter.image_right = new ImageIcon("images/48_hunter_right.gif").getImage();
+            Hunter.image_up = new ImageIcon("images/48_hunter_up.gif").getImage();
+            Hunter.image_down = new ImageIcon("images/48_hunter_down.gif").getImage();
         }
 
         this.image_last = Hunter.image_left;

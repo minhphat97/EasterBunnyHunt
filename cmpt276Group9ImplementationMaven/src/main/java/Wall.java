@@ -13,8 +13,8 @@ public class Wall extends Environment {
 	Wall() {
 		super();
 		if (Wall.imageNorm == null) {
-			Wall.imageNorm = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_tree_2.png").getImage();
-            Wall.imageAlt = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_tree_1.png").getImage();
+			Wall.imageNorm = new ImageIcon("images/48_tree_2.png").getImage();
+            Wall.imageAlt = new ImageIcon("images/48_tree_1.png").getImage();
         }
         this.image = Math.random() < Wall.altPercentage ? Wall.imageAlt : Wall.imageNorm;
 	}

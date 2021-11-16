@@ -84,12 +84,12 @@ public class Maze extends JPanel implements ActionListener {
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
     public Maze() {
-        introScreen = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/intro.png").getImage();
-        pauseScreen = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/rule.png").getImage();
-        winScreen = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/win.png").getImage();
-        loseScreen = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/lose.png").getImage();
-        ruleScreen = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/rule.png").getImage();
-        bgImage = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/Background.png").getImage();
+        introScreen = new ImageIcon("images/intro.png").getImage();
+        pauseScreen = new ImageIcon("images/rule.png").getImage();
+        winScreen = new ImageIcon("images/win.png").getImage();
+        loseScreen = new ImageIcon("images/lose.png").getImage();
+        ruleScreen = new ImageIcon("images/rule.png").getImage();
+        bgImage = new ImageIcon("images/Background.png").getImage();
 
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
@@ -217,7 +217,7 @@ public class Maze extends JPanel implements ActionListener {
          * reads map matrix from text file into levelData
          * Sets the map for the game
          */
-        String Maps[] = {"cmpt276Group9ImplementationMaven/src/main/resources/maps/map1.txt","cmpt276Group9ImplementationMaven/src/main/resources/maps/map2.txt"};
+        String Maps[] = {"maps/map1.txt","maps/map2.txt"};
         int max = 2;
         int min = 1;
         Random random = new Random();

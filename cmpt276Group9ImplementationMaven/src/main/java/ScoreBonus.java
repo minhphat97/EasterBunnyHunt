@@ -11,7 +11,7 @@ public class ScoreBonus extends Environment {
     ScoreBonus() {
         super();
         if (ScoreBonus.image == null) {
-            ScoreBonus.image = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_bonus_egg.png").getImage();
+            ScoreBonus.image = new ImageIcon("images/48_bonus_egg.png").getImage();
         }
     }
 

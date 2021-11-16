@@ -7,7 +7,7 @@ public class ThornBushPunishment extends Punishment{
     ThornBushPunishment() {
         super();
         if (ThornBushPunishment.image == null) {
-            ThornBushPunishment.image = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_thorn_bush.png").getImage();
+            ThornBushPunishment.image = new ImageIcon("images/48_thorn_bush.png").getImage();
         }
     }
 

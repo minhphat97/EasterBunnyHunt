@@ -14,9 +14,9 @@ public class Egg extends Environment {
 	Egg() {
 		super();
 		if (Egg.image_1 == null) {
-			Egg.image_1 = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_egg_1.png").getImage();
-            Egg.image_2 = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_egg_2.png").getImage();
-            Egg.image_3 = new ImageIcon("cmpt276Group9ImplementationMaven/src/main/resources/images/48_egg_3.png").getImage();
+			Egg.image_1 = new ImageIcon("images/48_egg_1.png").getImage();
+            Egg.image_2 = new ImageIcon("images/48_egg_2.png").getImage();
+            Egg.image_3 = new ImageIcon("images/48_egg_3.png").getImage();
         }
         double percentage = Math.random();
         if (percentage<0.3){

@@ -17,3 +17,6 @@ hs_err_pid*
 /tags.lock
 /tags.temp
 
+#marven target
+*/target/**
+
