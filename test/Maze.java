@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -216,8 +217,13 @@ public class Maze extends JPanel implements ActionListener {
          * reads map matrix from text file into levelData
          * Sets the map for the game
          */
+        String Maps[] = {"maps/map1.txt","maps/map2.txt"};
+        int max = 2;
+        int min = 1;
+        Random random = new Random();
+        int option =  random.nextInt((max - min) + 1) + min;
         try {
-            File myObj = new File("maps/map1.txt");
+            File myObj = new File("maps/map2.txt");
             Scanner myReader = new Scanner(myObj);//to read through file
             int r = 0;
             while (r < N_ROW) {
@@ -547,7 +553,6 @@ public class Maze extends JPanel implements ActionListener {
                 rabbit.isTrap = true;
                 rabbit.isFast = false;//also lose speed boost if in trap
                 trapTimer = TRAPDURATION + gameTimer;
-                rabbit.setScore(rabbit.getScore()-1);
             } else if (nextEnv instanceof ThornBushPunishment) {
                 screenData[data[0]][data[1]] = new Cell();
                 rabbit.setScore(rabbit.getScore()-1);
