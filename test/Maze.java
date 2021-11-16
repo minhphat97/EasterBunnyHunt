@@ -223,7 +223,12 @@ public class Maze extends JPanel implements ActionListener {
         Random random = new Random();
         int option =  random.nextInt((max - min) + 1) + min;
         try {
-            File myObj = new File("maps/map2.txt");
+            File myObj;
+            if(option == 1) {
+                myObj = new File(Maps[0]);
+            } else {
+                myObj = new File(Maps[1]);
+            }
             Scanner myReader = new Scanner(myObj);//to read through file
             int r = 0;
             while (r < N_ROW) {
