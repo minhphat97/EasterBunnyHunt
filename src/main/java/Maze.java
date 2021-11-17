@@ -163,6 +163,9 @@ public class Maze extends JPanel implements ActionListener {
 
                     timer.restart();
                 }
+                else if (key == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
             } else if (pause) {
                 if (key == KeyEvent.VK_SPACE) {
                     pauseDelay = (System.currentTimeMillis()-startTime-gameTimer*1000);//find time passed while paused (ms)
@@ -694,7 +697,8 @@ public class Maze extends JPanel implements ActionListener {
                 "Time: " + (int) (gameTimer / 3600) + ":" + (int) ((gameTimer / 60) % 60) + ":" + (int) (gameTimer % 60),
                 "Score: " + rabbit.getScore(),
                 "",
-                "Press <space> to play again"
+                "Press <space> to play again",
+                "Press <esc> to quit"
         };
 
         var fm = g.getFontMetrics(smallFont);
