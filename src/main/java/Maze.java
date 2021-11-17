@@ -642,9 +642,9 @@ public class Maze extends JPanel implements ActionListener {
                 "RULES",
                 "",
                 "Collect rainbow eggs to open the portal",
-                "Collect golden eggs to get bonuses",
-                "Avoid all other objects",
-                "Enter the portal to win",
+                "Collect bonus eggs to get extra points / power-up",
+                "Avoid enemies, traps and thornbush",
+                "Collect all egg and enter the portal to win",
                 "",
                 "Press <space> to continue"
         };
