@@ -1,5 +1,6 @@
 # Java compiled class
 *.class
+*.jar
 
 # JVM crash log
 hs_err_pid*
