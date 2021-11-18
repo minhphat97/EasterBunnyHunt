@@ -526,6 +526,8 @@ public class Maze extends JPanel implements ActionListener {
      *   - ScoreBonus
      *   - FreezeBonus
      *   - SpeedBonus
+     *   - Trap
+     *   - ThornBush
      *
      * @param  c  The character for which to check collisions.
      */
