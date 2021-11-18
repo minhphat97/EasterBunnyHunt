@@ -1,7 +1,12 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+/**
+ * sets the image of the ThornBush
+ */
 public class ThornBushPunishment extends Punishment{
+
+
     private static Image image = null;
 
     ThornBushPunishment() {

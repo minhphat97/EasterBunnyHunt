@@ -1,7 +1,10 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-
+/**
+ * Hero's images change depending on direction
+ * Hero also possess a score for the game, Hero may also be dead, trapped, or fast
+ */
 public class Hero extends Character {
     private int score = 0;
     private boolean dead = false;
@@ -14,6 +17,11 @@ public class Hero extends Character {
     private static long hitInterval = 631;  // in milliseconds.
     private long lastHit = 0;
 
+    /**
+     * Initializes hero's spawn location, speed, and directional images
+     * @param x initial x spawn position of hero in pixels
+     * @param y initial y spawn position of hero in pixels
+     */
     public Hero(int x, int y) {
         super(x, y);
         if (Hero.image_left == null) {
@@ -46,7 +54,7 @@ public class Hero extends Character {
 
     @Override
     public Image getImage() {
-        if (this.deltaX != 0) {
+        if (this.deltaX != 0) {//returns different image depending on direction
             this.image_last = this.deltaX < 0 ? Hero.image_left : Hero.image_right;
         } else if (this.deltaY != 0) {
             this.image_last = this.deltaY < 0 ? Hero.image_up : Hero.image_down;

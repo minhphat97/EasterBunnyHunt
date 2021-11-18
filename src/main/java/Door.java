@@ -2,6 +2,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 
+/**
+ * sets door images to open and closed, image depends on if door isOpen
+ */
 public class Door extends Environment {
 	private static Image imageClose = null;
 	private static Image imageOpen = null;	

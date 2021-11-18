@@ -2,10 +2,18 @@ import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-
+/**
+ * Wolf enemy has different images depending on direction
+ * Wold tracks the main character
+ */
 public class Wolf extends Enemy {
     private static Image image_left, image_right;
 
+    /**
+     * Initializes Wolf speed and initial position attributes as well as images
+     * @param x initial spawn x position in pixels for wolf
+     * @param y initial spawn y position in pixels for wolf
+     */
     public Wolf(int x, int y) {
         super(x, y);
         if (Wolf.image_left == null) {
@@ -21,6 +29,11 @@ public class Wolf extends Enemy {
         return this.image_last;
     }
 
+    /**
+     * Determines the next direction based on position of hero
+     * Wolf will track the main character
+     * @param h main character in game
+     */
     @Override
     public void nextMove(Hero h) {
         if ((this.deltaX != 0 || this.deltaY != 0) && Math.random() > turnPercentage)

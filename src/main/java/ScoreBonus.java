@@ -2,11 +2,11 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 
+/**
+ * sets the image of the score bonus egg
+ */
 public class ScoreBonus extends Environment {
     private static Image image = null;
-
-    // Number range for maximum score bonus (0 to RANGE).
-    private final int RANGE = 5;
 
     ScoreBonus() {
         super();

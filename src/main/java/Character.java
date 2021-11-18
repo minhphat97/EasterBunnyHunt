@@ -1,7 +1,10 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-
+/**
+ * Character onjects are movable entities and have x, y coordinates (in pixels)
+ * They also have a direction and speed
+ */
 public abstract class Character extends GameObject {
     protected int x, y;
     protected int deltaX, deltaY;
@@ -12,6 +15,11 @@ public abstract class Character extends GameObject {
     // use if there is no current movement command.
     protected Image image_last;
 
+    /**
+     * initializes character with a location adn speed
+     * @param initialX initial x position (spawn) of character
+     * @param initialY initial y position (spawn) of character
+     */
     public Character(int initialX, int initialY) {
         this.x = initialX;
         this.y = initialY;
@@ -30,6 +38,9 @@ public abstract class Character extends GameObject {
     public void setSpeed(int n) { this.speed = n; }
     public void setDefaultSpeed() { this.speed = this.defaultSpeed; }
 
+    /**
+     * updates the character to the next x and y based on direction and speed
+     */
     public void move() {
         this.x += this.speed * this.deltaX;
         this.y += this.speed * this.deltaY;

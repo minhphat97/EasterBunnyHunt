@@ -1,10 +1,17 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-
+/**
+ * Bat enemy has different images/gifs deppending on direction
+ */
 public class Bat extends Enemy {
     private static Image image_left, image_right;
 
+    /**
+     * Initializes bat enemy's speed, images, and turn radius used for nextMove function
+     * @param x initial spwan x position of bat in pixels
+     * @param y initial spwan y position of bat in pixels
+     */
     public Bat(int x, int y) {
         super(x, y);
         if (Bat.image_left == null) {
@@ -21,7 +28,7 @@ public class Bat extends Enemy {
 
     @Override
     public Image getImage() {
-        if (this.deltaX != 0)
+        if (this.deltaX != 0)//change image depending on direction
             this.image_last = this.deltaX < 0 ? Bat.image_left : Bat.image_right;
         return this.image_last;
     }

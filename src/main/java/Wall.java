@@ -2,6 +2,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 
+/**
+ * sets wall image to a random of 2 tree images
+ */
 public class Wall extends Environment {
 	private static Image imageNorm = null;
     private static Image imageAlt = null;

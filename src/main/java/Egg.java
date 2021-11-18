@@ -1,7 +1,10 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-
+/**
+ * Mandatory eggs to collect, eggs may have different images/looks
+ * count determines required eggs remaining in game
+ */
 public class Egg extends Environment {
 	private static Image image_1 = null;
     private static Image image_2 = null;
@@ -11,14 +14,17 @@ public class Egg extends Environment {
     private Image image = null;
     private static int count = 0;
 
-	Egg() {
+    /**
+     * setes images of egg randomly, and increments the required egg count
+     */
+    Egg() {
 		super();
 		if (Egg.image_1 == null) {
 			Egg.image_1 = new ImageIcon("classes/images/48_egg_1.png").getImage();
             Egg.image_2 = new ImageIcon("classes/images/48_egg_2.png").getImage();
             Egg.image_3 = new ImageIcon("classes/images/48_egg_3.png").getImage();
         }
-        double percentage = Math.random();
+        double percentage = Math.random();//pick random egg image
         if (percentage<0.3){
         	this.image = Egg.image_1;
         }
