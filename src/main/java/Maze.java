@@ -546,34 +546,48 @@ public class Maze extends JPanel implements ActionListener {
      */
     private void checkCollision(Character c) {
 
+        final int H_MARGIN = 20;
+        final int V_MARGIN =  6;
 
         int currRow = c.getY() / CELL_SIZE;
         int currCol = c.getX() / CELL_SIZE;
-        int nextRow = (c.getY() + c.getSpeed() * c.getDeltaY()) / CELL_SIZE;
-        int nextCol = (c.getX() + c.getSpeed() * c.getDeltaX()) / CELL_SIZE;
+        int nextY = c.getY() + c.getSpeed() * c.getDeltaY();
+        int nextX = c.getX() + c.getSpeed() * c.getDeltaX();
 
         // items: { row , col , edgeX , edgeY }
         var checkCells = new ArrayList<int[]>();
 
         if (c.getDeltaX() != 0) {
             if (c.getDeltaX() < 0) {  // check left collision
-                checkCells.add(new int[]{currRow, nextCol, CELL_SIZE * currCol, c.getY()});
-                if (c.getY() % CELL_SIZE != 0)
-                    checkCells.add(new int[]{currRow + 1, nextCol, CELL_SIZE * currCol, c.getY()});
+                if (c.getX() % CELL_SIZE >= CELL_SIZE - H_MARGIN && nextX % CELL_SIZE < CELL_SIZE - H_MARGIN) {
+                    if (c.getY() % CELL_SIZE < CELL_SIZE - V_MARGIN)
+                        checkCells.add(new int[]{currRow, nextX / CELL_SIZE, CELL_SIZE * (currCol + 1) - H_MARGIN, c.getY()});
+                    if (c.getY() % CELL_SIZE >= V_MARGIN)
+                        checkCells.add(new int[]{currRow + 1, nextX / CELL_SIZE, CELL_SIZE * (currCol + 1) - H_MARGIN, c.getY()});
+                }
             } else {  // check right collision
-                checkCells.add(new int[]{currRow, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
-                if (c.getY() % CELL_SIZE != 0)
-                    checkCells.add(new int[]{currRow + 1, nextCol + 1, CELL_SIZE * nextCol, c.getY()});
+                if (c.getX() % CELL_SIZE < H_MARGIN && nextX % CELL_SIZE >= H_MARGIN) {
+                    if (c.getY() % CELL_SIZE < CELL_SIZE - V_MARGIN)
+                        checkCells.add(new int[]{currRow, nextX / CELL_SIZE + 1, CELL_SIZE * currCol + H_MARGIN - 1, c.getY()});
+                    if (c.getY() % CELL_SIZE >= V_MARGIN)
+                        checkCells.add(new int[]{currRow + 1, nextX / CELL_SIZE + 1, CELL_SIZE * currCol + H_MARGIN - 1, c.getY()});
+                }
             }
         } else if (c.getDeltaY() != 0) {
             if (c.getDeltaY() < 0) {  // check up collision
-                checkCells.add(new int[]{nextRow, currCol, c.getX(), CELL_SIZE * currRow});
-                if (c.getX() % CELL_SIZE != 0)
-                    checkCells.add(new int[]{nextRow, currCol + 1, c.getX(), CELL_SIZE * currRow});
-            } else {  //check down collision
-                checkCells.add(new int[]{nextRow + 1, currCol, c.getX(), CELL_SIZE * nextRow});
-                if (c.getX() % CELL_SIZE != 0)
-                    checkCells.add(new int[]{nextRow + 1, currCol + 1, c.getX(), CELL_SIZE * nextRow});
+                if (c.getY() % CELL_SIZE >= CELL_SIZE - V_MARGIN && nextY % CELL_SIZE < CELL_SIZE - V_MARGIN) {
+                    if (c.getX() % CELL_SIZE < CELL_SIZE - H_MARGIN)
+                        checkCells.add(new int[]{nextY / CELL_SIZE, currCol, c.getX(), CELL_SIZE * (currRow + 1) - V_MARGIN});
+                    if (c.getX() % CELL_SIZE >= H_MARGIN)
+                        checkCells.add(new int[]{nextY / CELL_SIZE, currCol + 1, c.getX(), CELL_SIZE * (currRow + 1) - V_MARGIN});
+                }
+            } else {  // check down collision
+                if (c.getY() % CELL_SIZE < V_MARGIN && nextY % CELL_SIZE >= V_MARGIN) {
+                    if (c.getX() % CELL_SIZE < CELL_SIZE - H_MARGIN)
+                        checkCells.add(new int[]{nextY / CELL_SIZE + 1, currCol, c.getX(), CELL_SIZE * currRow + V_MARGIN - 1});
+                    if (c.getX() % CELL_SIZE >= H_MARGIN)
+                        checkCells.add(new int[]{nextY / CELL_SIZE + 1, currCol + 1, c.getX(), CELL_SIZE * currRow + V_MARGIN - 1});
+                }
             }
         }
 
