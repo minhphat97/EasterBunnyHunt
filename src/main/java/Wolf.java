@@ -1,6 +1,5 @@
 import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 /**
  * Wolf enemy has different images depending on direction
@@ -17,9 +16,10 @@ public class Wolf extends Enemy {
     public Wolf(int x, int y) {
         super(x, y);
         if (Wolf.image_left == null) {
-            Wolf.image_left = new ImageIcon("classes/images/48_wolf_left.gif").getImage();
-            Wolf.image_right = new ImageIcon("classes/images/48_wolf_right.gif").getImage();
+            Wolf.image_left = loadImage("images/48_wolf_left.gif");
+            Wolf.image_right = loadImage("images/48_wolf_right.gif");
         }
+        this.image_last = Wolf.image_right;
     }
 
     @Override

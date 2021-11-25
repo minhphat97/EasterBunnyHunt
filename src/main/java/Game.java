@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.net.URL;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -11,14 +15,25 @@ public class Game extends JFrame implements Runnable {
      * Initializes the new maze to be displayed on this
      */
     public Game() {
-        var image = new ImageIcon("classes/images/72_egg_1.png");
-        setIconImage(image.getImage());  // set application icon
+        Image image = loadImage("images/72_egg_1.png");
+        setIconImage(image);  // set application icon
         setResizable(false);
         setContentPane(new Maze());
         setTitle("Easter Bunny Hunt");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
+    }
+    public Image loadImage(String input){
+        URL stream = this.getClass().getResource(input);
+        Image image = null;
+        try{
+            image = new ImageIcon(ImageIO.read(stream)).getImage();
+        }
+        catch(IOException e) {
+            System.out.println("An error occurred loading image from file.");
+        }
+        return image;
     }
 
     @Override

@@ -1,7 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
-
-
 /**
  * sets door images to open and closed, image depends on if door isOpen
  */
@@ -13,8 +10,8 @@ public class Door extends Environment {
 	Door() {
 		super();
 		if (Door.imageClose == null) {
-			Door.imageClose = new ImageIcon("classes/images/48_portal_close.gif").getImage();
-			Door.imageOpen = new ImageIcon("classes/images/48_portal_open.gif").getImage();
+			Door.imageClose = loadImage("images/48_portal_close.gif");
+			Door.imageOpen = loadImage("images/48_portal_open.gif");
         }
 	}
 

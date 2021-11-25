@@ -16,8 +16,8 @@ public class Wall extends Environment {
 	Wall() {
 		super();
 		if (Wall.imageNorm == null) {
-			Wall.imageNorm = new ImageIcon("classes/images/48_tree_2.png").getImage();
-            Wall.imageAlt = new ImageIcon("classes/images/48_tree_1.png").getImage();
+			Wall.imageNorm = loadImage("images/48_tree_2.png");
+            Wall.imageAlt = loadImage("images/48_tree_1.png");
         }
         this.image = Math.random() < Wall.altPercentage ? Wall.imageAlt : Wall.imageNorm;
 	}

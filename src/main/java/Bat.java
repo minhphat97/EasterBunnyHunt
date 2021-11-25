@@ -15,8 +15,8 @@ public class Bat extends Enemy {
     public Bat(int x, int y) {
         super(x, y);
         if (Bat.image_left == null) {
-            Bat.image_left = new ImageIcon("classes/images/48_bat_left.gif").getImage();
-            Bat.image_right = new ImageIcon("classes/images/48_bat_right.gif").getImage();
+            Bat.image_left = loadImage("images/48_bat_left.gif");
+            Bat.image_right = loadImage("images/48_bat_right.gif");
         }
 
         this.image_last = Bat.image_left;

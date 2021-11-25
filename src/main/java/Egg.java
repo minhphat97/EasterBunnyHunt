@@ -1,5 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
 
 /**
  * Mandatory eggs to collect, eggs may have different images/looks
@@ -20,9 +19,9 @@ public class Egg extends Environment {
     Egg() {
 		super();
 		if (Egg.image_1 == null) {
-			Egg.image_1 = new ImageIcon("classes/images/48_egg_1.png").getImage();
-            Egg.image_2 = new ImageIcon("classes/images/48_egg_2.png").getImage();
-            Egg.image_3 = new ImageIcon("classes/images/48_egg_3.png").getImage();
+			Egg.image_1 = loadImage("images/48_egg_1.png");
+            Egg.image_2 = loadImage("images/48_egg_2.png");
+            Egg.image_3 = loadImage("images/48_egg_3.png");
         }
         double percentage = Math.random();//pick random egg image
         if (percentage<0.3){

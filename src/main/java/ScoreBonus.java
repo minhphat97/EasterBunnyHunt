@@ -11,7 +11,7 @@ public class ScoreBonus extends Environment {
     ScoreBonus() {
         super();
         if (ScoreBonus.image == null) {
-            ScoreBonus.image = new ImageIcon("classes/images/48_bonus_egg.png").getImage();
+            ScoreBonus.image = loadImage("images/48_bonus_egg.png");
         }
     }
 

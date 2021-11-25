@@ -16,14 +16,13 @@ public class Hunter extends Enemy {
     public Hunter(int x, int y) {
         super(x, y);
         if (Hunter.image_left == null) {
-            Hunter.image_left = new ImageIcon("classes/images/48_hunter_left.gif").getImage();
-            Hunter.image_right = new ImageIcon("classes/images/48_hunter_right.gif").getImage();
-            Hunter.image_up = new ImageIcon("classes/images/48_hunter_up.gif").getImage();
-            Hunter.image_down = new ImageIcon("classes/images/48_hunter_down.gif").getImage();
+            Hunter.image_left = loadImage("images/48_hunter_left.gif");
+            Hunter.image_right = loadImage("images/48_hunter_right.gif");
+            Hunter.image_up = loadImage("images/48_hunter_up.gif");
+            Hunter.image_down = loadImage("images/48_hunter_down.gif");
         }
 
         this.image_last = Hunter.image_left;
-
         this.turnPercentage = 0.02;
         this.defaultSpeed = 3;
         this.speed = this.defaultSpeed;

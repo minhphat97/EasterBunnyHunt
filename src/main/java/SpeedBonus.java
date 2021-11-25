@@ -10,7 +10,7 @@ public class SpeedBonus extends Environment {
     SpeedBonus() {
         super();
         if (SpeedBonus.image == null) {
-            SpeedBonus.image = new ImageIcon("classes/images/speed_bonus.png").getImage();
+            SpeedBonus.image = loadImage("images/speed_bonus.png");
         }
     }
 

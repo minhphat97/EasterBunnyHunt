@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import java.net.URL;
+import java.io.IOException;
 
 
 import javax.swing.ImageIcon;
@@ -92,12 +95,12 @@ public class Maze extends JPanel implements ActionListener {
      * Starts games Swing timer to begin performing game "ticks"
      */
     public Maze() {
-        introScreen = new ImageIcon("classes/images/intro.png").getImage();
-        pauseScreen = new ImageIcon("classes/images/rule.png").getImage();
-        winScreen = new ImageIcon("classes/images/win.png").getImage();
-        loseScreen = new ImageIcon("classes/images/lose.png").getImage();
-        ruleScreen = new ImageIcon("classes/images/rule.png").getImage();
-        bgImage = new ImageIcon("classes/images/Background.png").getImage();
+        introScreen = loadImage("images/intro.png");    
+        pauseScreen = loadImage("images/rule.png");
+        winScreen = loadImage("images/win.png");
+        loseScreen = loadImage("images/lose.png");
+        ruleScreen = loadImage("images/rule.png");
+        bgImage = loadImage("images/Background.png");
 
         screenData = new Environment[N_ROW][N_COL];
         levelData = new short[N_ROW][N_COL];
@@ -116,6 +119,17 @@ public class Maze extends JPanel implements ActionListener {
         timer.start();
     }
 
+    public Image loadImage(String input){
+        URL stream = this.getClass().getResource(input);
+        Image image = null;
+        try{
+            image = new ImageIcon(ImageIO.read(stream)).getImage();
+        }
+        catch(IOException e) {
+            System.out.println("An error occurred loading image from file.");
+        }
+        return image;
+    }
     /**
      * Handles user input from keyboard, processes character direction
      * Processes game state
@@ -241,20 +255,19 @@ public class Maze extends JPanel implements ActionListener {
      */
     private void readLevel()
     {
-
-        String Maps[] = {"classes/maps/map1.txt","classes/maps/map2.txt"};
+        String Maps[] = {"maps/map1.txt","maps/map2.txt"};
         int max = 2;
         int min = 1;
         Random random = new Random();
         int option =  random.nextInt((max - min) + 1) + min;
         try {
-            File myObj;
+            URL myObj;
             if(option == 1) {//choose random map
-                myObj = new File(Maps[0]);
+                myObj = this.getClass().getResource(Maps[0]);
             } else {
-                myObj = new File(Maps[1]);
+                myObj = this.getClass().getResource(Maps[1]);
             }
-            Scanner myReader = new Scanner(myObj);//to read through file
+            Scanner myReader = new Scanner(myObj.openStream()); ;//to read through file     
             int r = 0;
             while (r < N_ROW) {//read through file
                 String wholeRow = myReader.nextLine();//read and save next line in file
@@ -268,8 +281,8 @@ public class Maze extends JPanel implements ActionListener {
                 r++;
             }
             myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred loading map from file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred loading map from file.");  
         }
     }
 
