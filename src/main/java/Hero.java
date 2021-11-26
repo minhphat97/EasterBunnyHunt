@@ -38,15 +38,6 @@ public class Hero extends Character {
     public void setScore(int n) { this.score = n; }
     public void addScore(int n) { this.score += n; }
 
-    public void hit() { this.hit(1); }
-    public void hit(int n) {
-        long t = System.currentTimeMillis();
-        if (t >= this.lastHit + Hero.hitInterval) {
-            this.lastHit = t;
-            this.score -= n;
-        }
-    }
-
     public void setDead() { this.dead = true; }
     public boolean isDead() {
         return (this.dead = this.dead || this.score < 0);
