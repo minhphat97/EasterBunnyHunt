@@ -7,22 +7,30 @@ public abstract class GameObject
 {
     /**
      *Parent of all the game entities used such as enemies, hero, and environment stationary entities
-     * @return image of this
+     * @return image of the game Object
+     * @see Image
      */
     public abstract Image getImage();
 
-    public Image loadImage(String input){
+    /**
+     * Find an file with a given name and return the image it contains
+     * @param   fileName  the name of the image that is being search and return 
+     * @return  Image     GameObject image that will be display in the game
+     * @see               Image
+     * @see               Class               
+     */
+    public Image loadImage(String fileName){
         InputStream is = null;
         Image image = null;
         try{
-            is = this.getClass().getClassLoader().getResourceAsStream(input);
+            is = this.getClass().getClassLoader().getResourceAsStream(fileName);
             BufferedInputStream bis = new BufferedInputStream(is);
             byte[] byBuf = new byte[10000];
             int byteRead = bis.read(byBuf,0,10000);
             image = Toolkit.getDefaultToolkit().createImage(byBuf);
         }
         catch(IOException e) {
-            System.out.println("An error occurred loading image from file.");
+            System.out.println("An error occurred when loading image from file.");
         }
         return image;
     }
