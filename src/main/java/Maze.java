@@ -119,7 +119,7 @@ public class Maze extends JPanel implements ActionListener {
         timer.start();
     }
 
-    public Image loadImage(String input){
+    private Image loadImage(String input){
         URL stream = this.getClass().getResource(input);
         Image image = null;
         try{
@@ -134,7 +134,7 @@ public class Maze extends JPanel implements ActionListener {
      * Handles user input from keyboard, processes character direction
      * Processes game state
      */
-    class Key extends KeyAdapter {
+    private class Key extends KeyAdapter {
         // This cannot be static because inner classes are lame.
         private int[] allowedKeys = {
                 KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D
