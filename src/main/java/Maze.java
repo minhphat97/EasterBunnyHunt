@@ -32,11 +32,22 @@ import javax.swing.Timer;
  * Handles game logic flow, bonus effects, collision, timers, and image screens
  */
 public class Maze extends JPanel implements ActionListener {
+    // Constants describing the look of the game window.
     private final Font smallFont = new Font("MV Boli", Font.BOLD, 25);
     private final Color background = new Color(18, 125, 9);
+
+    // Class variables describing the hero and the array of enemies.
     private Hero rabbit;
     private ArrayList<Enemy> enemies;
 
+    // List of boolean flags describing the current state of the game.
+    // Everything starts as false and we first show the start screen.
+    // Once the user interacts, sawStart becomes true and the rules screen is shown.
+    // Once the user interacts, sawRule becomes true and the main game starts showing.
+    // During them main game loop the following can happen:
+    //  - If the user hits the pause key, pause becomes true and the pause screen is shown.
+    //  - If the user dies or wins, finish becomes true and the screen shown depends on the win flag.
+    //  - If the user wins, win becomes true.
     boolean pause = false;
     boolean sawStart = false;
     boolean sawRule = false;
@@ -52,34 +63,41 @@ public class Maze extends JPanel implements ActionListener {
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
     private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
 
+    // Pixels of leeway for the horizontal and vertical collision hitboxes respectively.
+    // Leeway represents the number of pixels that don't count in the hitbox but are in the image.
+    // These values are in pixels.
     private final int H_MARGIN = 20;
     private final int V_MARGIN =  6;
 
-    private short[][] levelData;
-    private Environment[][] screenData;
+    // Variables representing the maze data.
+    private short[][] levelData;  // data extracted from the maze file
+    private Environment[][] screenData;  // java class translation of levelData
 
     private Timer timer;
-    private final int DELAY = 40;  // added final for delay, used for in game timer
-    private double gameTimer;  // keeps track of playing time
+    private final int DELAY = 40;  // time in miliseconds to delay for in game timer
+    private double gameTimer;  // variables that keep track of playing time
     private double startTime;
     private double pauseDelay;
 
-    // Bonus vars.
-    private boolean enemyFrozen = false;
-    private final int BONUSDURATION = 7; // duration in seconds for the bonus effects to last
+    // Variables describing the function of bonus rewards.
+    private boolean enemyFrozen = false;  // boolean flag describing whether the enemies are frozen
+    private final int BONUSDURATION = 7;  // duration in seconds for the bonus effects to last
     private final int TRAPDURATION = 2;
-    private double freezeTimer;  // timers required for bunus durations
-    private double speedTimer;
+    private double freezeTimer;  // timer for freeze bonus duration
+    private double speedTimer;  // timer for speed bonus duration
     private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
     private double bonusTimer;  // timer to count down while bonus is on screen
     private double respawnTimer;  // timer to count down till next bonus
     private double trapTimer; // timer to count down to keep bunny stop
-    private boolean onScreen = false;  // indicate if there is bonus currently on the screen
-    private int bonusCol;  // index of the bonus
-    private int bonusRow;
+    private boolean onScreen = false;  // boolean flag for if there is bonus currently on the screen
 
+    private int bonusCol;  // column of the bonus in the maze array
+    private int bonusRow;  // row of the bonus in the maze array
+
+    // Class image variables for the multiple static screens.
     private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen, bgImage;
 
+    // Constants which are used to describe the initial maze in the maze file.
     public final short EMPTY = 0;
     public final short WALL = 1;
     public final short EGG = 2;
