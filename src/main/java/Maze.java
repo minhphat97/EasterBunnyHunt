@@ -52,7 +52,8 @@ public class Maze extends JPanel implements ActionListener {
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
     private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
 
-
+    private final int H_MARGIN = 20;
+    private final int V_MARGIN =  6;
 
     private short[][] levelData;
     private Environment[][] screenData;
@@ -545,9 +546,6 @@ public class Maze extends JPanel implements ActionListener {
      * @param  c  The character for which to check collisions.
      */
     private void checkCollision(Character c) {
-
-        final int H_MARGIN = 20;
-        final int V_MARGIN =  6;
 
         int currRow = c.getY() / CELL_SIZE;
         int currCol = c.getX() / CELL_SIZE;
