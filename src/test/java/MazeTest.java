@@ -1,0 +1,104 @@
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.swing.launcher.ApplicationLauncher.application;
+import static org.assertj.swing.finder.WindowFinder.findFrame;
+import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
+import java.awt.event.KeyEvent;
+import org.assertj.swing.core.BasicRobot;
+import org.assertj.swing.core.Robot;
+
+
+public class MazeTest{
+    private FrameFixture window;
+    private Robot robot = BasicRobot.robotWithNewAwtHierarchy();
+
+
+    @BeforeEach
+    public void setUp() {
+    Game game = GuiActionRunner.execute(() -> new Game());
+    assertThat(game).isNotNull();
+    window = new FrameFixture(robot,game);
+    assertThat(window).isNotNull();
+    window.show(); // shows the frame to test
+    }
+
+    @Test
+    public void ruleScreensTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE);
+    }
+
+    @Test
+    public void gameScreensTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+    }
+
+    @Test
+    public void pauseScreensTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE,
+                                           KeyEvent.VK_ESCAPE);
+    }
+    @Test
+    public void unpauseTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE,
+                                           KeyEvent.VK_ESCAPE,KeyEvent.VK_SPACE,
+                                           KeyEvent.VK_ESCAPE);
+    }
+
+    @Test
+    public void CharacterMoveTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(200);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D);
+        window.panel().pressKey(KeyEvent.VK_S);
+        window.panel().releaseKey(KeyEvent.VK_S);
+        window.panel().pressKey(KeyEvent.VK_W);
+        window.panel().releaseKey(KeyEvent.VK_W);
+        window.panel().pressKey(KeyEvent.VK_A);
+        window.panel().releaseKey(KeyEvent.VK_A);        
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_ESCAPE);
+    }
+
+    @Test
+    public void EggTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(310);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D);
+        robot.settings().delayBetweenEvents(800);
+        window.panel().pressKey(KeyEvent.VK_S);
+        window.panel().releaseKey(KeyEvent.VK_S);   
+    }
+
+    @Test
+    public void thornTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(310);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D);
+        robot.settings().delayBetweenEvents(900);
+        window.panel().pressKey(KeyEvent.VK_S);
+        window.panel().releaseKey(KeyEvent.VK_S); 
+    }
+
+    @Test
+    public void DeathTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(310);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D);
+        robot.settings().delayBetweenEvents(1500);
+        window.panel().pressKey(KeyEvent.VK_S);
+        robot.settings().delayBetweenEvents(100);
+        window.panel().releaseKey(KeyEvent.VK_S);
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE);   
+    }
+
+    @AfterEach
+    public void tearDown() {
+        window.cleanUp();
+    }
+}
