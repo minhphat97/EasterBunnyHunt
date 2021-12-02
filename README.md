@@ -1,15 +1,12 @@
 Easter Bunny Hunt
 =================
 
+![:)](https://csil-git1.cs.surrey.sfu.ca/cmpt276f21_group9/project/-/blob/master/Design/game_images/rabbit_right.gif)
+
 Easter Bunny Hunt is a game written in Java using the Swing GUI toolkit.
 The style of the game harkens back to old school top down arcade games.
 This project aims to deliver an easy to access nostalgia trip back to the
 classics from the early 90s.
-
-Requirements
-------------
-
-Java 17
 
 Compiling
 ---------
@@ -32,6 +29,12 @@ Running
 
 If the build was successful, the JAR file should be located in `target/EasterBunnyHunt.jar`.
 Assuming Java is in the PATH, the game can be started with `java -jar target/EasterBunnyHunt.jar`.
+
+Awknowledgements
+----------------
+
+Thanks to the CMPT 276 (Fall 2021, D100) teaching staff for providing the
+software engineering knowledge used to design and build this project.
 
 
 [1]: https://maven.apache.org/
