@@ -99,7 +99,7 @@ public class MazeTest{
         robot.settings().delayBetweenEvents(310);
         window.panel().pressKey(KeyEvent.VK_D);
         window.panel().releaseKey(KeyEvent.VK_D);
-        robot.settings().delayBetweenEvents(1500);
+        robot.settings().delayBetweenEvents(2000);
         window.panel().pressKey(KeyEvent.VK_S);
         robot.settings().delayBetweenEvents(100);
         window.panel().releaseKey(KeyEvent.VK_S);
