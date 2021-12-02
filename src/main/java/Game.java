@@ -1,8 +1,8 @@
 import java.awt.EventQueue;
 import java.awt.Image;
-import javax.imageio.ImageIO;
-import java.net.URL;
 import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 

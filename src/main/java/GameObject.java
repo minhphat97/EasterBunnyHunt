@@ -1,8 +1,9 @@
 import java.awt.Image;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.awt.Toolkit;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.IOException;
+
 public abstract class GameObject 
 {
     /**

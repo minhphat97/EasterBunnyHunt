@@ -1,4 +1,5 @@
 import java.awt.Image;
+
 /**
  * Character onjects are movable entities and have x, y coordinates (in pixels)
  * They also have a direction and speed

@@ -1,5 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
 
 /**
  * sets the image of the SpeedBonus egg

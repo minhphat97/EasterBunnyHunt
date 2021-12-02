@@ -1,4 +1,5 @@
 import java.awt.Image;
+
 /**
  * sets door images to open and closed, image depends on if door isOpen
  */
