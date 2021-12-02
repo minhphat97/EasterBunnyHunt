@@ -57,54 +57,29 @@ public class MazeTest{
         window.panel().pressAndReleaseKeys(KeyEvent.VK_ESCAPE);
     }
 
-    @Test
-    public void eggTest() {
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(310);
-        window.panel().pressKey(KeyEvent.VK_D);
-        window.panel().releaseKey(KeyEvent.VK_D);
-        robot.settings().delayBetweenEvents(1000);
-        window.panel().pressKey(KeyEvent.VK_S);
-        window.panel().releaseKey(KeyEvent.VK_S);   
-    }
 
     @Test
     public void thornTest() {
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(310);
-        window.panel().pressKey(KeyEvent.VK_D);
-        window.panel().releaseKey(KeyEvent.VK_D);
-        robot.settings().delayBetweenEvents(1300);
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);;
+        robot.settings().delayBetweenEvents(500);
         window.panel().pressKey(KeyEvent.VK_S);
         window.panel().releaseKey(KeyEvent.VK_S); 
-    }
-
-    @Test
-    public void trapTest() {
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(310);
-        window.panel().pressKey(KeyEvent.VK_D);
-        window.panel().releaseKey(KeyEvent.VK_D);
-        robot.settings().delayBetweenEvents(1200);
-        window.panel().pressKey(KeyEvent.VK_S);
-        window.panel().releaseKey(KeyEvent.VK_S); 
-        window.panel().pressKey(KeyEvent.VK_A);
-        robot.settings().delayBetweenEvents(200);
-        window.panel().releaseKey(KeyEvent.VK_A);
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_ESCAPE);
     }
 
     @Test
     public void DeathTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(310);
-        window.panel().pressKey(KeyEvent.VK_D);
-        window.panel().releaseKey(KeyEvent.VK_D);
         robot.settings().delayBetweenEvents(2000);
         window.panel().pressKey(KeyEvent.VK_S);
-        robot.settings().delayBetweenEvents(100);
-        window.panel().releaseKey(KeyEvent.VK_S);
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE);   
+        window.panel().releaseKey(KeyEvent.VK_S);  
+    }
+
+    @Test
+    public void trapTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(1000);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D); 
     }
 
     @AfterEach
