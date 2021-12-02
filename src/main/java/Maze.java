@@ -42,11 +42,11 @@ public class Maze extends JPanel implements ActionListener {
     //  - If the user hits the pause key, pause becomes true and the pause screen is shown.
     //  - If the user dies or wins, finish becomes true and the screen shown depends on the win flag.
     //  - If the user wins, win becomes true.
-    boolean pause = false;
-    boolean sawStart = false;
-    boolean sawRule = false;
-    boolean finish = false;
-    boolean win = false;
+    private boolean pause = false;
+    private boolean sawStart = false;
+    private boolean sawRule = false;
+    private boolean finish = false;
+    private boolean win = false;
 
     // Height of the bottom info panel.
     private final int INFO_HEIGHT = 72;
