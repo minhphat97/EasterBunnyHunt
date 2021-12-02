@@ -1,6 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
-
 
 /**
  * sets the image of the score bonus egg

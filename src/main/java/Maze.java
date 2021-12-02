@@ -1,9 +1,6 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -11,17 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
-import java.net.URL;
-import java.io.IOException;
-
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
