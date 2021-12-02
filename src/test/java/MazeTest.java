@@ -69,17 +69,19 @@ public class MazeTest{
     @Test
     public void DeathTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(2000);
+        robot.settings().delayBetweenEvents(600);
         window.panel().pressKey(KeyEvent.VK_S);
-        window.panel().releaseKey(KeyEvent.VK_S);  
+        window.panel().releaseKey(KeyEvent.VK_S);
+        window.panel().pressKey(KeyEvent.VK_S);
+        window.panel().releaseKey(KeyEvent.VK_S); 
     }
 
     @Test
     public void trapTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
-        robot.settings().delayBetweenEvents(1000);
+        robot.settings().delayBetweenEvents(2500);
         window.panel().pressKey(KeyEvent.VK_D);
-        window.panel().releaseKey(KeyEvent.VK_D); 
+        window.panel().releaseKey(KeyEvent.VK_D);  
     }
 
     @AfterEach
