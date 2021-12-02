@@ -94,7 +94,7 @@ public class MazeTest{
         window.panel().pressAndReleaseKeys(KeyEvent.VK_ESCAPE);
     }
 
-    /*@Test
+    @Test
     public void DeathTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
         robot.settings().delayBetweenEvents(310);
@@ -105,7 +105,7 @@ public class MazeTest{
         robot.settings().delayBetweenEvents(100);
         window.panel().releaseKey(KeyEvent.VK_S);
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE);   
-    }*/
+    }
 
     @AfterEach
     public void tearDown() {
