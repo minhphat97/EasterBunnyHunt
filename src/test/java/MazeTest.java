@@ -26,11 +26,6 @@ public class MazeTest{
     }
 
     @Test
-    public void ruleScreensTest() {
-        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE);
-    }
-
-    @Test
     public void gameScreensTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
     }
@@ -48,7 +43,7 @@ public class MazeTest{
     }
 
     @Test
-    public void CharacterMoveTest() {
+    public void characterMoveTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
         robot.settings().delayBetweenEvents(200);
         window.panel().pressKey(KeyEvent.VK_D);
@@ -63,7 +58,7 @@ public class MazeTest{
     }
 
     @Test
-    public void EggTest() {
+    public void eggTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
         robot.settings().delayBetweenEvents(310);
         window.panel().pressKey(KeyEvent.VK_D);
@@ -82,6 +77,20 @@ public class MazeTest{
         robot.settings().delayBetweenEvents(900);
         window.panel().pressKey(KeyEvent.VK_S);
         window.panel().releaseKey(KeyEvent.VK_S); 
+    }
+    @Test
+    public void trapTest() {
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
+        robot.settings().delayBetweenEvents(310);
+        window.panel().pressKey(KeyEvent.VK_D);
+        window.panel().releaseKey(KeyEvent.VK_D);
+        robot.settings().delayBetweenEvents(1200);
+        window.panel().pressKey(KeyEvent.VK_S);
+        window.panel().releaseKey(KeyEvent.VK_S); 
+        window.panel().pressKey(KeyEvent.VK_A);
+        robot.settings().delayBetweenEvents(200);
+        window.panel().releaseKey(KeyEvent.VK_A);
+        window.panel().pressAndReleaseKeys(KeyEvent.VK_ESCAPE);
     }
 
     @Test
