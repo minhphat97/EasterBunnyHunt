@@ -67,7 +67,7 @@ public class MazeTest{
     }
 
     @Test
-    public void DeathTest() {
+    public void deathTest() {
         window.panel().pressAndReleaseKeys(KeyEvent.VK_SPACE,KeyEvent.VK_SPACE);
         robot.settings().delayBetweenEvents(600);
         window.panel().pressKey(KeyEvent.VK_S);
