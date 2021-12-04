@@ -34,7 +34,7 @@ PLEASE DO NOT PRESS ANY BUTTON DURING THAT TESTING PHASE AS IT WILL INTERRUPT TH
 
 Moreover, certain users may get a warning like `WARNING: Exception thrown by a TimerTask`, please ignore the warning as we have confirmed that it does not affect compiling and running the game, the JAR file will still be built with that warning.
 
-We ulilize [JaCoCo Java Code Coverage Library] to calulate our test coverages, the detailed report on the coverage can accessed via an HTML file generated in `target/site/jacoco/index.html`.
+We ulilize [JaCoCo Java Code Coverage Library][7] to calulate our test coverages, the detailed report on the coverage can accessed via an HTML file generated in `target/site/jacoco/index.html`.
 
 Running
 -------
@@ -69,4 +69,5 @@ Special thanks to all the friends and family that acted as our beta testers and 
 [4]: https://junit.org/junit5/
 [5]: https://joel-costigliola.github.io/assertj/assertj-swing.html
 [6]: https://joel-costigliola.github.io/assertj/swing/api/org/assertj/swing/core/Robot.html
+[7]: https://www.eclemma.org/jacoco/
 
