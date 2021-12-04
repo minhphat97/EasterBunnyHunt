@@ -19,21 +19,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-swing-testng</artifactId>
-            <version>3.9.2</version>
+            <version>3.17.1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-swing-junit</artifactId>
-            <version>3.9.2</version>
+            <version>3.17.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>  
