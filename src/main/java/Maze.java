@@ -1,9 +1,6 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -11,12 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Stack;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import java.net.URL;
 import java.io.IOException;
@@ -52,11 +45,6 @@ public class Maze extends JPanel implements ActionListener {
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
     private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
 
-
-
-    //private short[][] levelData;
-    //private Environment[][] screenData;
-
     private Timer timer;
     private final int DELAY = 40;  // added final for delay, used for in game timer
     private double gameTimer;  // keeps track of playing time
@@ -79,18 +67,13 @@ public class Maze extends JPanel implements ActionListener {
 
     private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen, bgImage;
 
-    public final short EMPTY = 0;
-    public final short WALL = 1;
-    public final short EGG = 2;
-    public final short DOOR = 3;
     public final short EGGFREEZE = 4;
     public final short EGGPOINTS = 5;
     public final short EGGSPEED = 6;
-    public final short TRAP = 7;
-    public final short THORNBUSH = 8;
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
-    private Map map;
+    private Map map;//game map, can still access private screenData array to use
+
     /**
      * Initializes games images, size, key listener, game map layout of objects
      * Starts games Swing timer to begin performing game "ticks"
@@ -103,8 +86,6 @@ public class Maze extends JPanel implements ActionListener {
         ruleScreen = loadImage("images/rule.png");
         bgImage = loadImage("images/Background.png");
 
-        //screenData = new Environment[N_ROW][N_COL];
-        //levelData = new short[N_ROW][N_COL];
 
         timer = new Timer(DELAY, this);
         addKeyListener(new Key());
@@ -113,11 +94,7 @@ public class Maze extends JPanel implements ActionListener {
         setBackground(background);
         setForeground(Color.WHITE);
         setFocusable(true);
-        //Map map = new Map();
-
         createLevel();
-        //initLevel();
-
         timer.start();
     }
 
@@ -194,8 +171,6 @@ public class Maze extends JPanel implements ActionListener {
                     Egg.resetCount();
                     Door.close();
                     createLevel();
-                    //initLevel();
-
                     timer.restart();
                 }
                 else if (key == KeyEvent.VK_ESCAPE) {//quit game
@@ -238,7 +213,8 @@ public class Maze extends JPanel implements ActionListener {
         }
     }
     /**
-     * Generate the data for a level.
+     * Create game map of environment objects, add in characters at
+     * spawn positions
      * Automatic garbage collection should clean up the old values.
      */
     private void createLevel() {
@@ -250,7 +226,6 @@ public class Maze extends JPanel implements ActionListener {
         enemies.add(new Hunter(300, 150));
         enemies.add(new Wolf(400, 200));
         insertBonus();
-        //readLevel();//reads data from a map
     }
 
 
