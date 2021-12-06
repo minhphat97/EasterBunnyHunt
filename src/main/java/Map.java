@@ -3,21 +3,25 @@ import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
 
-//this class will be used to read the map from the file, initialize the environment
-//it will have public 2d array for level data so still compadable with maze class
-public class Map {
-    //public level
+/**
+ this class will be used to read the map from the maps file and initialize the environment
+ *it will have public 2d array for level data so still compadable with maze class
+ */
+ public class Map {
     private final int N_ROW = 12;
     private final int N_COL = 24;
-    public Environment[][] screenData = new Environment[N_ROW][N_COL];
-    public short[][] levelData = new short[N_ROW][N_COL];
-    public final short EMPTY = 0;
+    public Environment[][] screenData = new Environment[N_ROW][N_COL];//object array map
+    public short[][] levelData = new short[N_ROW][N_COL];//read data map to translate to objects
+    public final short EMPTY = 0;//used to translate map of numbers to objects
     public final short WALL = 1;
     public final short EGG = 2;
     public final short DOOR = 3;
     public final short TRAP = 7;
     public final short THORNBUSH = 8;
 
+    /**
+     * initialize map of environment objects for maze
+     */
     public Map(){
         readLevel();
         initLevel();
@@ -61,7 +65,7 @@ public class Map {
     }
 
     /**
-     * Translates the level map array into Environement objects at proper locations
+     * Translates the level map short array into Environement objects at proper locations
      */
     private void initLevel() {
         for (int r = 0; r < N_ROW; ++r) {
@@ -76,7 +80,5 @@ public class Map {
                 }
             }
         }
-        //insertBonus();//insert bonus into Environment array
     }
-
 }
