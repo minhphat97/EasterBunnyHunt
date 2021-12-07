@@ -494,8 +494,11 @@ public class Maze extends JPanel implements ActionListener {
             }
         }
 
+
+        //void checkBonusCollision()
         for (var data : checkCells) {
             var nextEnv = map.screenData[data[0]][data[1]];
+
             if (nextEnv instanceof Wall || (nextEnv instanceof Door && !Door.checkOpen())) {
                 // If wall or closed door.
                 c.setDeltaX(0);
@@ -515,25 +518,19 @@ public class Maze extends JPanel implements ActionListener {
                 finish = true;
                 win = true;
             } else if (nextEnv instanceof ScoreBonus) {  // check for bonuses
-                map.screenData[data[0]][data[1]] = new Cell();//take bonus off screen
                 int bonus = (int) (Math.random() * 5) + 1;
                 rabbit.setScore(rabbit.getScore() + bonus);//add score
-                onScreen = false;
-                gameTime.setRespawnTime();
+                deleteBonus(data[0],data[1]);
             } else if (nextEnv instanceof FreezeBonus) {
-                map.screenData[data[0]][data[1]] = new Cell();
                 enemyFrozen = true;
                 freezeEnemies();
                 gameTime.setFreezeTime(((FreezeBonus) nextEnv).FREEZEDURATION);
-                onScreen = false;  // bonus no longer on screen
-                gameTime.setRespawnTime();
+                deleteBonus(data[0],data[1]);
             } else if (nextEnv instanceof SpeedBonus) {
-                map.screenData[data[0]][data[1]] = new Cell();
                 rabbit.isFast = true;
                 rabbit.setSpeed(6);
                 gameTime.setSpeedTime(((SpeedBonus) nextEnv).SPEEDDURATION);
-                onScreen = false;
-                gameTime.setRespawnTime();
+                deleteBonus(data[0],data[1]);
             } else if (nextEnv instanceof TrapPunishment) {
                 map.screenData[data[0]][data[1]] = new Cell();
                 rabbit.setSpeed(0);
@@ -544,8 +541,16 @@ public class Maze extends JPanel implements ActionListener {
                 map.screenData[data[0]][data[1]] = new Cell();
                 rabbit.setScore(rabbit.getScore()-1);//remove a point
             }
-
         }
+    }
+    /**
+     * Checks the bonus eggs operation in the game
+     * This replaces for the repeated code
+     */
+    private void deleteBonus(int Row, int Col){
+        map.screenData[Row][Col] = new Cell();
+        onScreen = false;
+        gameTime.setRespawnTime();
     }
     /**
      * Checks the hero for collisions with any enemies.

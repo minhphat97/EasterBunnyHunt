@@ -5,29 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9434d43e-6c9a-40cd-82c4-06a1888df985" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/Bat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Bat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FreezeBonus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FreezeBonus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Hero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Hunter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Hunter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Maze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Maze.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScoreBonus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScoreBonus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedBonus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedBonus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ThornBushPunishment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ThornBushPunishment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TrapPunishment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TrapPunishment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Wall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/BatTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/BatTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/CellTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/CellTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DoorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DoorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/EggTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/EggTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/FreezeBonusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/FreezeBonusTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/HeroTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HeroTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/HunterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HunterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/MazeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MazeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ScoreBonusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ScoreBonusTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SpeedBonusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SpeedBonusTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ThornBushPunishmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ThornBushPunishmentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TrapPunishmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TrapPunishmentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/WolfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WolfTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
