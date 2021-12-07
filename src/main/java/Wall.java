@@ -1,6 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
-
 
 /**
  * sets wall image to a random of 2 tree images

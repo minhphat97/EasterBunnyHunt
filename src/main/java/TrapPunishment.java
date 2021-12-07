@@ -1,12 +1,11 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
 
 /**
  * sets the image of the trap
  */
 public class TrapPunishment extends Punishment{
     private static Image image = null;
-
+    public final int TRAPDURATION = 2;
     TrapPunishment() {
         super();
         if (TrapPunishment.image == null) {

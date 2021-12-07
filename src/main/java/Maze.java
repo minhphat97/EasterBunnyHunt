@@ -13,11 +13,10 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 import java.net.URL;
 import java.io.IOException;
-
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 
 /**
  * Panel of game to be shown in window, Handles all game object creation
@@ -49,8 +48,6 @@ public class Maze extends JPanel implements ActionListener {
 
     // Bonus vars.
     private boolean enemyFrozen = false;
-    private final int BONUSDURATION = 7; // duration in seconds for the bonus effects to last
-    private final int TRAPDURATION = 2;
     private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
     private boolean onScreen = false;  // indicate if there is bonus currently on the screen
     private int bonusCol;  // index of the bonus
@@ -527,14 +524,14 @@ public class Maze extends JPanel implements ActionListener {
                 map.screenData[data[0]][data[1]] = new Cell();
                 enemyFrozen = true;
                 freezeEnemies();
-                gameTime.setFreezeTime(BONUSDURATION);
+                gameTime.setFreezeTime(((FreezeBonus) nextEnv).FREEZEDURATION);
                 onScreen = false;  // bonus no longer on screen
                 gameTime.setRespawnTime();
             } else if (nextEnv instanceof SpeedBonus) {
                 map.screenData[data[0]][data[1]] = new Cell();
                 rabbit.isFast = true;
                 rabbit.setSpeed(6);
-                gameTime.setSpeedTime(BONUSDURATION);
+                gameTime.setSpeedTime(((SpeedBonus) nextEnv).SPEEDDURATION);
                 onScreen = false;
                 gameTime.setRespawnTime();
             } else if (nextEnv instanceof TrapPunishment) {
@@ -542,7 +539,7 @@ public class Maze extends JPanel implements ActionListener {
                 rabbit.setSpeed(0);
                 rabbit.isTrap = true;
                 rabbit.isFast = false;//also lose speed boost if in trap
-                gameTime.setTrapTime(TRAPDURATION);
+                gameTime.setTrapTime(((TrapPunishment) nextEnv).TRAPDURATION);
             } else if (nextEnv instanceof ThornBushPunishment) {
                 map.screenData[data[0]][data[1]] = new Cell();
                 rabbit.setScore(rabbit.getScore()-1);//remove a point
