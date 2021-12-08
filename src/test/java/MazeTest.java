@@ -1,11 +1,7 @@
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.swing.launcher.ApplicationLauncher.application;
-import static org.assertj.swing.finder.WindowFinder.findFrame;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
-import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import java.awt.event.KeyEvent;
 import org.assertj.swing.core.BasicRobot;
 import org.assertj.swing.core.Robot;

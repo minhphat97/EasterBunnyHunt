@@ -1,6 +1,4 @@
 import java.awt.Image;
-import javax.swing.ImageIcon;
-
 
 /**
  * Hunter enemy has different images/gifs deppending on direction
