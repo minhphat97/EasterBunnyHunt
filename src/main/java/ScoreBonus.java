@@ -1,4 +1,5 @@
 import java.awt.Image;
+
 /**
  * sets the image of the score bonus egg
  */

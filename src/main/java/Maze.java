@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Stack;
 import javax.imageio.ImageIO;
-import java.net.URL;
-import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -24,16 +24,27 @@ import javax.swing.Timer;
  * Handles game logic flow, bonus effects, collision, timers, and image screens
  */
 public class Maze extends JPanel implements ActionListener {
+    // Constants describing the look of the game window.
     private final Font smallFont = new Font("MV Boli", Font.BOLD, 25);
     private final Color background = new Color(18, 125, 9);
+
+    // Class variables describing the hero and the array of enemies.
     private Hero rabbit;
     private ArrayList<Enemy> enemies;
 
-    boolean pause = false;
-    boolean sawStart = false;
-    boolean sawRule = false;
-    boolean finish = false;
-    boolean win = false;
+    // List of boolean flags describing the current state of the game.
+    // Everything starts as false and we first show the start screen.
+    // Once the user interacts, sawStart becomes true and the rules screen is shown.
+    // Once the user interacts, sawRule becomes true and the main game starts showing.
+    // During them main game loop the following can happen:
+    //  - If the user hits the pause key, pause becomes true and the pause screen is shown.
+    //  - If the user dies or wins, finish becomes true and the screen shown depends on the win flag.
+    //  - If the user wins, win becomes true.
+    private boolean pause = false;
+    private boolean sawStart = false;
+    private boolean sawRule = false;
+    private boolean finish = false;
+    private boolean win = false;
 
     // Height of the bottom info panel.
     private final int INFO_HEIGHT = 72;
@@ -43,16 +54,23 @@ public class Maze extends JPanel implements ActionListener {
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
     private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
 
+    // Pixels of leeway for the horizontal and vertical collision hitboxes respectively.
+    // Leeway represents the number of pixels that don't count in the hitbox but are in the image.
+    // These values are in pixels.
+    private final int H_MARGIN = 20;
+    private final int V_MARGIN =  6;
+
     private Timer timer;
-    private final int DELAY = 40;  // added final for delay, used for in game swing timer
+    private final int DELAY = 40;  // added final for delay, used for in game timer
 
-    // Bonus vars.
-    private boolean enemyFrozen = false;
+    // Bonus variables.
+    private boolean enemyFrozen = false;  // boolean flag describing whether the enemies are frozen
     private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
-    private boolean onScreen = false;  // indicate if there is bonus currently on the screen
-    private int bonusCol;  // index of the bonus
-    private int bonusRow;
+    private boolean onScreen = false;  // boolean flag for if there is bonus currently on the screen
+    private int bonusCol;  // column of the bonus in the maze array
+    private int bonusRow;  // row of the bonus in the maze array
 
+    // Class image variables for the multiple static screens.
     private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen, bgImage;
 
     public final short EGGFREEZE = 4;
@@ -60,8 +78,8 @@ public class Maze extends JPanel implements ActionListener {
     public final short EGGSPEED = 6;
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
-    private Map map;//game map, can still access private screenData array to use
-    private gameTimer gameTime;//used to handle all in game timers, such as bonus duration and play time clock
+    private Map map;  // game map, can still access private screenData array to use
+    private gameTimer gameTime;  // used to handle all in game timers, such as bonus duration and play time clock
 
 
     /**
@@ -448,9 +466,6 @@ public class Maze extends JPanel implements ActionListener {
      * @param  c  The character for which to check collisions.
      */
     private void checkCollision(Character c) {
-
-        final int H_MARGIN = 20;
-        final int V_MARGIN =  6;
 
         int currRow = c.getY() / CELL_SIZE;
         int currCol = c.getX() / CELL_SIZE;

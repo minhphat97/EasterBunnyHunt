@@ -1,4 +1,5 @@
 import java.awt.Image;
+
 /**
  * Bat enemy has different images/gifs deppending on direction
  */

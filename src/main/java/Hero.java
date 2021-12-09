@@ -12,10 +12,6 @@ public class Hero extends Character {
 
     private static Image image_left, image_right, image_up, image_down;
 
-    // Variables determining how often hitboxes are registered.
-    private static long hitInterval = 631;  // in milliseconds.
-    private long lastHit = 0;
-
     /**
      * Initializes hero's spawn location, speed, and directional images
      * @param x initial x spawn position of hero in pixels
