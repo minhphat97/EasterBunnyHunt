@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * SpeedBounus will speed up user for a few second when player collect it
+ * One of the Bonus Eggs, it will speed up user for a few second when player collect it
  */
 public class SpeedBonus extends Environment {
     private static Image image = null;

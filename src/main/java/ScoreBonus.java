@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * ScoreBonus will increser player score when player collect it
+ * One of the Bonus eggs, it will increser player score when player collect it
  */
 public class ScoreBonus extends Environment {
     private static Image image = null;
