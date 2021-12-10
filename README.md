@@ -26,7 +26,7 @@ If the requirements are satisfied, please file a bug report [here][3].
 
 Testing
 -------
-As mentioned in the previous section, `mvn package` will compile the java file and test all the test cases. We use [Junit 5][4] and [AssertJ Swing][5] library for testing Swing classes. 
+As mentioned in the previous section, `mvn package` will compile the java file and test all the test cases (You can also use `mvn test` to run test case without generating the game). We use [Junit 5][4] and [AssertJ Swing][5] library for testing Swing classes. 
 
 During testing, our integration test case will create a [Robot Class][6] from the AssertJ Swing Library to simulate user input, you will temporarily see our game pop up during testing, this is normal as the Robot is trying to play the game. 
 
