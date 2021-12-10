@@ -58,7 +58,7 @@ If you want to pause or exit the game, just press ESC to enter the pause screen,
 Documentation
 -------------
 
-To generate a javaDoc, please use the command `mvn javadoc::javadoc` , it will genrate a directory in `target/site` named `apidoc`, within you can find all the documentation for our classes' public methods and member. 
+To generate a javaDoc, please use the command `mvn javadoc::javadoc` , it will generate a directory in `target/site` named `apidocs`, within you can find all the documentation for our classes' public methods and member. 
 
 Acknowledgements
 ----------------
