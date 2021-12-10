@@ -58,7 +58,12 @@ If you want to pause or exit the game, just press ESC to enter the pause screen,
 JavaDoc Documentation
 ---------------------
 
-To generate JavaDoc Dcomentation for all classes, please use the command `mvn javadoc::javadoc`, it will autumatically generate a directory in `target/site` named `apidocs`, within `apidocs` you can find all the documentations for our classes' public methods and member. 
+To generate JavaDoc Dcomentation for all classes, please use the command `mvn javadoc::javadoc`, it will automatically generate a directory in `target/site` named `apidocs`, within `apidocs` you can find all the documentations for our classes' public methods and member. 
+
+Demo Video
+----------
+
+We created a demo video for this game, please click here[8] to watch it.
 
 Acknowledgements
 ----------------
@@ -75,4 +80,5 @@ Special thanks to all the friends and family that acted as our beta testers and 
 [5]: https://joel-costigliola.github.io/assertj/assertj-swing.html
 [6]: https://joel-costigliola.github.io/assertj/swing/api/org/assertj/swing/core/Robot.html
 [7]: https://www.eclemma.org/jacoco/
+[8]: https://www.youtube.com/watch?v=3WhS6OGyz-0
 
