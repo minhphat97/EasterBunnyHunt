@@ -53,7 +53,12 @@ To tip the balance of the scale, Bonus Eggs with special power are randomly popp
 
 When you collected all your eggs, the portal to Easter Island is open and you need to run to the portal to win the game, remember your enemies are still out to get you so don't lower your guard before you enter the portal.
 
-If you want to pause or exit the game, just press ESC to enter the pause screen, then press Space to continue or ESC again to quit the game.     
+If you want to pause or exit the game, just press ESC to enter the pause screen, then press Space to continue or ESC again to quit the game. 
+
+Documentation
+-------------
+
+To generate a javaDoc, please use the command `mvn javadoc::javadoc` , it will genrate a directory in `target/site` named `apidoc`, within you can find all the documentation for our classes' public methods and member. 
 
 Acknowledgements
 ----------------
