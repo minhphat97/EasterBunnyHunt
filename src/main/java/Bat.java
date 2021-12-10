@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * Bat enemy has different images/gifs deppending on direction
+ * Bat is one of the game enemie, it change direction frequently
  */
 public class Bat extends Enemy {
     private static Image image_left, image_right;

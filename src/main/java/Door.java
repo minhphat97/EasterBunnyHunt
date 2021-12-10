@@ -1,13 +1,16 @@
 import java.awt.Image;
 
 /**
- * sets door images to open and closed, image depends on if door isOpen
+ * Door are closed upon initaition, open when all Eggs are collect, enter to win the game
  */
 public class Door extends Environment {
 	private static Image imageClose = null;
 	private static Image imageOpen = null;	
 	private static boolean isOpen = false;
 
+	/**
+	 * Initalize a door and load image
+	 */
 	Door() {
 		super();
 		if (Door.imageClose == null) {

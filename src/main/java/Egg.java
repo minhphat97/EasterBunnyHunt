@@ -38,7 +38,6 @@ public class Egg extends Environment {
 
 	@Override
 	public Image getImage() { return this.image; }
-
 	public static int getCount() { return Egg.count; }
 	public static void decCount() { Egg.count--; }
     public static void resetCount() { Egg.count = 0; }

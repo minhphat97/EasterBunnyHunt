@@ -27,7 +27,7 @@ public class GameTimer {
         return gameTime;
     }
 
-    // used to offset the system time taken while pausing, in order to correct for gameTime
+    /**used to offset the system time taken while pausing, in order to correct for GameTime*/
     public void setPauseDelay() {
         pauseDelay = (System.currentTimeMillis()-startTime-gameTime*1000);//find time passed while paused (ms)
     }
@@ -53,17 +53,24 @@ public class GameTimer {
         }
         return timeLeft;
     }
-    //system time at begining of game, used as an offset to calculate game play time
+    /**system time at begining of game, used as an offset to calculate game play time*/
     public void setStartTime(){
         startTime = System.currentTimeMillis();
     }
 
-    //functions that handle bonus deletion and respawn times
+    /**
+     * Handle bonus deletion and respawn times
+     * @param bonusWait 
+     */
     public void setBonusDeleteTime(int bonusWait){
         //time that bonus should be deleted if unclaimed
         deleteBonusTimer = bonusWait+gameTime;  //start the waiting timer
     }
     
+    
+    /**
+     * Set time till next bonus will appear
+     */
     public void setRespawnTime(){
         //time till next bonus will appear
         respawnTimer = gameTime+5;

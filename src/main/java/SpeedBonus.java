@@ -1,10 +1,11 @@
 import java.awt.Image;
 
 /**
- * sets the image of the SpeedBonus egg
+ * SpeedBounus will speed up user for a few second when player collect it
  */
 public class SpeedBonus extends Environment {
     private static Image image = null;
+    /**Duration of the speed up effect*/
     public final int SPEEDDURATION = 5;
     SpeedBonus() {
         super();

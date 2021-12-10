@@ -1,14 +1,15 @@
 import java.awt.Image;
 
 /**
- * sets wall image to a random of 2 tree images
+ * The wall will stop player if playing walk upon it, it have 2 differen version of image
  */
 public class Wall extends Environment {
 	private static Image imageNorm = null;
     private static Image imageAlt = null;
 
-    // This is the image that is actually displayed.
+    /** This is the image that is actually displayed.*/
     private Image image = null;
+    /** Probaility of diaplaying the alternative version of Wall image*/
     private static double altPercentage = 0.2;
 
 	Wall() {

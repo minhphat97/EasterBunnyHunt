@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * cell is empty game space, sets image to null
+ * Cell is empty game space that player walk on, sets image to null
  */
 public class Cell extends Environment
 {

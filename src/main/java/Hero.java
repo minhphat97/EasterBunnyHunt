@@ -1,15 +1,14 @@
 import java.awt.Image;
 
 /**
- * Hero's images change depending on direction
- * Hero also possess a score for the game, Hero may also be dead, trapped, or fast
+ * The main charater of the game, controlled by the user
  */
 public class Hero extends Character {
     private int score = 0;
     private boolean dead = false;
     public boolean isFast = false;
     public boolean isTrap = false;
-
+    /** Image for different direction*/
     private static Image image_left, image_right, image_up, image_down;
 
     /**
@@ -32,7 +31,6 @@ public class Hero extends Character {
     public int getScore() { return this.score; }
     public void setScore(int n) { this.score = n; }
     public void addScore(int n) { this.score += n; }
-
     public void setDead() { this.dead = true; }
     public boolean isDead() {
         return (this.dead = this.dead || this.score < 0);

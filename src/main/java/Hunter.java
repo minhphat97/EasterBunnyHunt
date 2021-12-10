@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * Hunter enemy has different images/gifs deppending on direction
+ * Hunter is part of the enemy class, it have fast speed
  */
 public class Hunter extends Enemy {
     private static Image image_left, image_right, image_up, image_down;

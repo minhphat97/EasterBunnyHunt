@@ -1,20 +1,18 @@
 import java.awt.Image;
 
 /**
- * Character onjects are movable entities and have x, y coordinates (in pixels)
+ * Character objects are movable entities and have x, y coordinates (in pixels)
  * They also have a direction and speed
  */
 public abstract class Character extends GameObject {
-    /*
-    x,y are the horixontal and vertical position of the object
-    Delta X,Y are the changes to x,y in every tick
-    Speed are multiplier to Delta X,Y, the higher the speed, the bigger the change to x,y in each tick;
-    */
+    /** x,y are the horixontal and vertical position of the object*/
     protected int x, y;
+    /** Delta X,Y are the changes to x,y in every tick*/
     protected int deltaX, deltaY; 
+    /**Speed are multiplier to Delta X,Y, the higher the speed, the bigger the change to x,y in each tick*/
     protected int defaultSpeed = 3, speed;
 
-    /*All characters have multiple images depending on which way they're
+    /**All characters have multiple images depending on which way they're
       facing (based on movement). This variable saves the last such image to
       use if there is no current movement command.*/
     protected Image image_last;

@@ -2,8 +2,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 /**
- * Wolf enemy has different images depending on direction
- * Wold tracks the main character
+ * Wolf is one of the the game enemies, it can track the user movment 
  */
 public class Wolf extends Enemy {
     private static Image image_left, image_right;

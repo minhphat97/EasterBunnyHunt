@@ -20,7 +20,9 @@ import javax.swing.Timer;
 
 /**
  * Panel of game to be shown in window, Handles all game object creation
+ * <p>
  * Displays all objects on window at desired locations based on next moves and user inputs
+ * <p>
  * Handles game logic flow, bonus effects, collision, timers, and image screens
  */
 public class Maze extends JPanel implements ActionListener {
@@ -32,19 +34,21 @@ public class Maze extends JPanel implements ActionListener {
     private Hero rabbit;
     private ArrayList<Enemy> enemies;
 
-    // List of boolean flags describing the current state of the game.
-    // Everything starts as false and we first show the start screen.
-    // Once the user interacts, sawStart becomes true and the rules screen is shown.
-    // Once the user interacts, sawRule becomes true and the main game starts showing.
-    // During them main game loop the following can happen:
-    //  - If the user hits the pause key, pause becomes true and the pause screen is shown.
-    //  - If the user dies or wins, finish becomes true and the screen shown depends on the win flag.
-    //  - If the user wins, win becomes true.
-    private boolean pause = false;
-    private boolean sawStart = false;
-    private boolean sawRule = false;
-    private boolean finish = false;
-    private boolean win = false;
+    /** List of boolean flags describing the current state of the game.
+     * Everything starts as false and we first show the start screen.
+     * <p>
+     * Once the user interacts, sawStart becomes true and the rules screen is shown.
+     * Once the user interacts, sawRule becomes true and the main game starts showing.
+     * <p>
+     * During them main game loop the following can happen
+     * <p>
+     * - If the user hits the pause key, pause becomes true and the pause screen is shown.
+     * <p>
+     * - If the user dies or wins, finish becomes true and the screen shown depends on the win flag.
+     * <p>
+     * - If the user wins, win becomes true.
+     */
+    private boolean pause=false,sawStart=false,sawRule=false,finish=false,win=false;
 
     // Height of the bottom info panel.
     private final int INFO_HEIGHT = 72;
@@ -54,33 +58,50 @@ public class Maze extends JPanel implements ActionListener {
     private final int SCREEN_WIDTH = N_COL * CELL_SIZE;
     private final int SCREEN_HEIGHT = N_ROW * CELL_SIZE + INFO_HEIGHT;
 
-    // Pixels of leeway for the horizontal and vertical collision hitboxes respectively.
-    // Leeway represents the number of pixels that don't count in the hitbox but are in the image.
-    // These values are in pixels.
+    /** Pixels of leeway for the horizontal and vertical collision hitboxes respectively.
+    * Leeway represents the number of pixels that don't count in the hitbox but are in the image.
+    * These values are in pixels.
+    */
     private final int H_MARGIN = 20;
+    /** Pixels of leeway for the horizontal and vertical collision hitboxes respectively.
+    * Leeway represents the number of pixels that don't count in the hitbox but are in the image.
+    * These values are in pixels.
+    */
     private final int V_MARGIN =  6;
 
+    /**
+     *Call repaint at every tick
+     */
     private Timer timer;
-    private final int DELAY = 40;  // added final for delay, used for in game timer
+    /**
+     * Time interval between each tick
+     */
+     private final int DELAY = 40;  
 
     // Bonus variables.
-    private boolean enemyFrozen = false;  // boolean flag describing whether the enemies are frozen
-    private final int BONUSWAIT = 10;  // time in seconds that the bonus will remain on screen before hiding
-    private boolean onScreen = false;  // boolean flag for if there is bonus currently on the screen
-    private int bonusCol;  // column of the bonus in the maze array
-    private int bonusRow;  // row of the bonus in the maze array
+    /** boolean flag describing whether the enemies are frozen*/
+    private boolean enemyFrozen = false; 
+    /** time in seconds that the bonus will remain on screen before hiding*/
+    private final int BONUSWAIT = 10; 
+    /** boolean flag for if there is bonus currently on the screen*/
+    private boolean onScreen = false; 
+    /** column of the bonus in the maze array*/ 
+    private int bonusCol;  
+    /** row of the bonus in the maze array*/
+    private int bonusRow;  
 
-    // Class image variables for the multiple static screens.
+    /** Class image variables for the multiple static screens.*/
     private Image introScreen, ruleScreen, pauseScreen, winScreen, loseScreen, bgImage;
 
-    public final short EGGFREEZE = 4;
-    public final short EGGPOINTS = 5;
-    public final short EGGSPEED = 6;
-    public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
+    private final short EGGFREEZE = 4;
+    private final short EGGPOINTS = 5;
+    private final short EGGSPEED = 6;
+    private final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
-    private Map map;  // game map, can still access private screenData array to use
-    private GameTimer gameTime;  // used to handle all in game timers, such as bonus duration and play time clock
-
+    /** game map, can still access private screenData array to use*/
+    private Map map;  
+    /** used to handle all in game timers, such as bonus duration and play time clock*/
+    private GameTimer gameTime;  
 
     /**
      * Initializes games images, size, key listener, game map layout of objects
@@ -93,7 +114,6 @@ public class Maze extends JPanel implements ActionListener {
         loseScreen = loadImage("images/lose.png");
         ruleScreen = loadImage("images/rule.png");
         bgImage = loadImage("images/Background.png");
-
 
         timer = new Timer(DELAY, this);
         addKeyListener(new Key());
@@ -415,32 +435,44 @@ public class Maze extends JPanel implements ActionListener {
         g.drawString("Time: " + gameTime.getHour() + ":" + gameTime.getMin() + ":" + gameTime.getSec(), 24, SCREEN_HEIGHT - 26);
     }
 
-
+    /**
+     * draws player in bottom left of screen
+     */
     private void drawScore(Graphics g) {
         //function draws game score which depends on bonuses, regular eggs, and traps
         g.setFont(smallFont);
         g.drawString("Score: " + rabbit.getScore(), 245, SCREEN_HEIGHT - 26);
     }
 
-
+    /**
+     * display pause screen when pause
+     */
     private void drawPauseInfo(Graphics g) {
         //displays hint message on screen detailing how to pause
         g.setFont(new Font("MV Boli", Font.PLAIN, 12));
         g.drawString("Press <esc> to pause!", SCREEN_WIDTH - 140, SCREEN_HEIGHT - 13);
     }
 
-
+    /**
+     * display Freeze Timer when eneimes freeze
+     */
     private void drawFreezeTimer(Graphics g) {
        //draws freeze bonus duration
         g.setFont(smallFont);
         g.drawString("Freeze boost time: " + gameTime.effectTimeLeft("freeze bonus"), 420, SCREEN_HEIGHT - 26);
     }
 
+    /**
+     * display Speed Timer when Hero speed up using speed bonus
+     */
     private void drawSpeedTimer(Graphics g) {
         //draws speed bonus duration
         g.setFont(smallFont);
         g.drawString("Speed boost time: " + gameTime.effectTimeLeft("speed bonus"), 770, SCREEN_HEIGHT - 26);
     }
+    /**
+     * Display Traptime, when Hero is traped
+     */
     private void drawTrapTimer(Graphics g) {
         g.setFont(smallFont);
         g.drawString("Trapped time: " + gameTime.effectTimeLeft("trap"), 770, SCREEN_HEIGHT - 26);

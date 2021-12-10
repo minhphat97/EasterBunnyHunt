@@ -1,6 +1,5 @@
 /**
- * parent class for enemies (bat, hunter, wolf)
- * sets initial location and speed
+ * Parent class for enemies (bat, hunter, wolf)
  */
 public abstract class Enemy extends Character {
     protected double turnPercentage = 0.05;

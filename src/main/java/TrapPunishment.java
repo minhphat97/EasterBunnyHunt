@@ -1,10 +1,11 @@
 import java.awt.Image;
 
 /**
- * sets the image of the trap
+ * Trap is one of the puunihsment class, if the user walk upon it, it freeze the user for a few second
  */
 public class TrapPunishment extends Punishment{
     private static Image image = null;
+    /**Duration of the trap effect*/
     public final int TRAPDURATION = 2;
     TrapPunishment() {
         super();

@@ -4,10 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 
+/**
+ * SuperClass for all Game Object
+ */
 public abstract class GameObject 
 {
     /**
-     *Parent of all the game entities used such as enemies, hero, and environment stationary entities
+     * Get Image for the object to display in game 
      * @return image of the game Object
      * @see Image
      */
