@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.IOException;
 
 /**
- * SuperClass for all Game Object
+ * Super Class for all Game Object
  */
 public abstract class GameObject 
 {

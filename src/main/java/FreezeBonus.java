@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * One of teh Bonus, freeze enemies for 5 second
+ * One of the Bonus, freeze enemies for 5 second
  */
 public class FreezeBonus extends Environment {
     private static Image image = null;

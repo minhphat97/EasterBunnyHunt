@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * The wall will stop player if playing walk upon it, it have 2 differen version of image
+ * The wall will stop player if player walk upon it.
  */
 public class Wall extends Environment {
 	private static Image imageNorm = null;

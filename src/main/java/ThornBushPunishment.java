@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 /**
- * Trap is one of the puunihsment class, if the user walk upon it, it decreases user score
+ * Trap is one of the punishment class, if the user walk upon it, it decreases user score
  */
 public class ThornBushPunishment extends Punishment{
     
