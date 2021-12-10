@@ -63,7 +63,7 @@ To generate JavaDoc Dcomentation for all classes, please use the command `mvn ja
 Demo Video
 ----------
 
-We created a demo video for this game, please click here[8] to watch it.
+We created a demo video for this game, please click [here][8] to watch it.
 
 Acknowledgements
 ----------------
