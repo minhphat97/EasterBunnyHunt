@@ -55,10 +55,10 @@ When you collected all your eggs, the portal to Easter Island is open and you ne
 
 If you want to pause or exit the game, just press ESC to enter the pause screen, then press Space to continue or ESC again to quit the game. 
 
-Documentation
--------------
+JavaDoc Documentation
+---------------------
 
-To generate a javaDoc, please use the command `mvn javadoc::javadoc` , it will generate a directory in `target/site` named `apidocs`, within you can find all the documentation for our classes' public methods and member. 
+To generate JavaDoc Dcomentation for all classes, please use the command `mvn javadoc::javadoc`, it will autumatically generate a directory in `target/site` named `apidocs`, within `apidocs` you can find all the documentations for our classes' public methods and member. 
 
 Acknowledgements
 ----------------
