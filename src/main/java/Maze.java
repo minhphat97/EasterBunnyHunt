@@ -79,7 +79,7 @@ public class Maze extends JPanel implements ActionListener {
     public final short[] BONUS = { EGGFREEZE, EGGSPEED, EGGPOINTS };
 
     private Map map;  // game map, can still access private screenData array to use
-    private gameTimer gameTime;  // used to handle all in game timers, such as bonus duration and play time clock
+    private GameTimer gameTime;  // used to handle all in game timers, such as bonus duration and play time clock
 
 
     /**
@@ -103,7 +103,7 @@ public class Maze extends JPanel implements ActionListener {
         setForeground(Color.WHITE);
         setFocusable(true);
 
-        gameTime = new gameTimer();//create new timer for game time display
+        gameTime = new GameTimer();//create new timer for game time display
         createLevel();
         timer.start();
     }
@@ -162,7 +162,7 @@ public class Maze extends JPanel implements ActionListener {
             if (!sawStart) {//on initial screen
                 if (key == KeyEvent.VK_SPACE) {//transition to rules screen
                     sawStart = true;
-                    gameTime = new gameTimer();//start in game timer
+                    gameTime = new GameTimer();//start in game timer
                 }
             } else if (!sawRule) {
                 if (key == KeyEvent.VK_SPACE) {//transition to begin game

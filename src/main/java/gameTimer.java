@@ -3,7 +3,7 @@
  * handles display timer, bonus respawn/deletion timers
  * also handles bonus effect and trap timers
  */
-public class gameTimer {
+public class GameTimer {
     private double freezeTime, speedTime, trapTime, respawnTimer, deleteBonusTimer;//timers
     private double gameTime;//time playing game
     private double startTime;
@@ -14,18 +14,20 @@ public class gameTimer {
     /**
      * initialize current time, and set the game play time
      */
-    public gameTimer(){
+    public GameTimer(){
         setStartTime();
         updateGameTime();
     }
 
-    //update the game time according to current system time
+    /**
+     * update the game time according to current system time
+     */
     public double updateGameTime(){
         gameTime = (System.currentTimeMillis() - (startTime+pauseDelay))/ 1000;
         return gameTime;
     }
 
-    //used to offset the system time taken while pausing, in order to correct for gameTime
+    // used to offset the system time taken while pausing, in order to correct for gameTime
     public void setPauseDelay() {
         pauseDelay = (System.currentTimeMillis()-startTime-gameTime*1000);//find time passed while paused (ms)
     }
@@ -61,6 +63,7 @@ public class gameTimer {
         //time that bonus should be deleted if unclaimed
         deleteBonusTimer = bonusWait+gameTime;  //start the waiting timer
     }
+    
     public void setRespawnTime(){
         //time till next bonus will appear
         respawnTimer = gameTime+5;
