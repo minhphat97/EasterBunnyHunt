@@ -1,3 +1,4 @@
+package easter_bunny_hunt;
 /**
  * Game timer class to handle all timers for maze game
  * handles display timer, bonus respawn/deletion timers

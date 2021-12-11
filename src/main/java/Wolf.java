@@ -1,3 +1,4 @@
+package easter_bunny_hunt;
 import java.awt.Image;
 import java.util.ArrayList;
 

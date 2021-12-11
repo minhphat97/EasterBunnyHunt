@@ -1,3 +1,4 @@
+package easter_bunny_hunt;
 /**
 * Environment objects are the static/non-movable entities in our game
 * Environment objects consist of empty cells, punishments, walls, all eggs, and the door
