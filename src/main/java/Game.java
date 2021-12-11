@@ -1,4 +1,3 @@
-package easter_bunny_hunt;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.io.IOException;

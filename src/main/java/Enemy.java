@@ -1,4 +1,4 @@
-package easter_bunny_hunt;
+
 /**
  * Parent class for enemies (bat, hunter, wolf)
  */
