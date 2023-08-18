@@ -1,7 +1,7 @@
 Easter Bunny Hunt
 =================
 
-![:)](https://github.com/minhphat97/EasterBunnyHunt.git/Design/game_images/readme.gif)
+![:)](https://github.com/minhphat97/EasterBunnyHunt/Design/game_images/readme.gif)
 
 Easter Bunny Hunt is a game written in Java using the Swing GUI toolkit.
 The style of the game harkens back to old-school top-down arcade games.
